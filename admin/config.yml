@@ -16,11 +16,13 @@ collections:
         name: "programs"
         fields:
           - { label: "프로그램 목록", name: "items", widget: "list", summary: "{{title}}", fields:
+              - { label: "고유 주소 (영문/숫자, 공백 없이. 예: salon-tomorrow)", name: "slug", widget: "string", hint: "프로그램 상세페이지 주소로 사용됩니다. 등록 후에는 바꾸지 마세요." }
               - { label: "제목", name: "title", widget: "string" }
               - { label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)", name: "status", widget: "string" }
-              - { label: "소개", name: "summary", widget: "text" }
+              - { label: "소개 (카드에 짧게 보이는 문구)", name: "summary", widget: "text" }
               - { label: "운영 시기", name: "period", widget: "string", required: false }
               - { label: "대상", name: "audience", widget: "string", required: false }
+              - { label: "상세 내용 (상세페이지 본문)", name: "detail", widget: "text", required: false }
             }
 
   - name: "news"

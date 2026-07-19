@@ -32,11 +32,23 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="stat-strip">
-        <div class="stat"><div class="n">25</div><div class="l">YEARS · 2000년부터</div></div>
-        <div class="stat"><div class="n">511+</div><div class="l">교육 수료생</div></div>
-        <div class="stat"><div class="n">50+</div><div class="l">회원 문화기획자</div></div>
-        <div class="stat"><div class="n">15</div><div class="l">이사진 구성</div></div>
+      <div class="stat-row">
+        <div class="stat-coin">
+          <div class="ring"><span class="n">25</span></div>
+          <span class="l">YEARS · 2000년부터</span>
+        </div>
+        <div class="stat-coin">
+          <div class="ring"><span class="n">511+</span></div>
+          <span class="l">교육 수료생</span>
+        </div>
+        <div class="stat-coin">
+          <div class="ring"><span class="n">50+</span></div>
+          <span class="l">회원 문화기획자</span>
+        </div>
+        <div class="stat-coin">
+          <div class="ring"><span class="n">15</span></div>
+          <span class="l">이사진 구성</span>
+        </div>
       </div>
     </div>
   </section>
@@ -127,12 +139,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const progHost = document.getElementById('homePrograms');
   if(progData && progHost){
     progHost.innerHTML = progData.items.slice(0,3).map(p => `
-      <article class="ticket">
+      <a class="ticket" href="/program-detail.html?slug=${encodeURIComponent(p.slug||'')}">
         <div class="status">${escapeHTML(p.status||'')}</div>
         <h3>${escapeHTML(p.title||'')}</h3>
         <p>${escapeHTML(p.summary||'')}</p>
-        <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')}</div>
-      </article>
+        <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')} <span class="arrow">자세히 →</span></div>
+      </a>
     `).join('');
   }
 

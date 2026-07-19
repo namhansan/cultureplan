@@ -43,12 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
   host.innerHTML = data.items.map(p => `
-    <article class="ticket">
+    <a class="ticket" href="/program-detail.html?slug=${encodeURIComponent(p.slug||'')}">
       <div class="status">${escapeHTML(p.status||'')}</div>
       <h3>${escapeHTML(p.title||'')}</h3>
       <p>${escapeHTML(p.summary||'')}</p>
-      <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')}</div>
-    </article>
+      <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')} <span class="arrow">자세히 →</span></div>
+    </a>
   `).join('');
 });
 </script>

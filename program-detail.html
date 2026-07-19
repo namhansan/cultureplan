@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프로그램 상세 — 한국문화기획학교</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="programs">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <a class="back-link" href="/programs.html">← 프로그램 목록으로</a>
+      <div id="detailHost">
+        <p>불러오는 중입니다…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cta-row">
+        <a class="btn primary" href="/contact.html">문의하기</a>
+        <a class="btn" href="/programs.html">다른 프로그램 보기</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const slug = new URLSearchParams(location.search).get('slug');
+  const host = document.getElementById('detailHost');
+  const data = await loadJSON('/content/data/programs.json');
+  const item = data && data.items ? data.items.find(p => p.slug === slug) : null;
+
+  if(!item){
+    host.innerHTML = `
+      <div class="empty-note">
+        요청하신 프로그램을 찾을 수 없습니다. <a href="/programs.html" style="color:var(--stamp-deep); font-weight:600;">전체 프로그램 목록</a>으로 돌아가 주세요.
+      </div>`;
+    document.title = '프로그램을 찾을 수 없습니다 — 한국문화기획학교';
+    return;
+  }
+
+  document.title = item.title + ' — 한국문화기획학교';
+  host.innerHTML = `
+    <p class="eyebrow">${escapeHTML(item.status||'')}</p>
+    <h1>${escapeHTML(item.title||'')}</h1>
+    <p class="lede">${escapeHTML(item.summary||'')}</p>
+    <div class="detail-meta">
+      ${item.period ? `<span class="chip">${escapeHTML(item.period)}</span>` : ''}
+      ${item.audience ? `<span class="chip">${escapeHTML(item.audience)}</span>` : ''}
+    </div>
+    <div class="detail-body">
+      ${(item.detail || item.summary || '').split('\n').filter(Boolean).map(p => `<p>${escapeHTML(p)}</p>`).join('')}
+    </div>
+  `;
+});
+</script>
+</body>
+</html>
