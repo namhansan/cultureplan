@@ -1,0 +1,65 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+publish_mode: simple
+
+collections:
+  - name: "programs"
+    label: "프로그램"
+    files:
+      - file: "content/data/programs.json"
+        label: "프로그램 목록"
+        name: "programs"
+        fields:
+          - { label: "프로그램 목록", name: "items", widget: "list", summary: "{{title}}", fields:
+              - { label: "제목", name: "title", widget: "string" }
+              - { label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)", name: "status", widget: "string" }
+              - { label: "소개", name: "summary", widget: "text" }
+              - { label: "운영 시기", name: "period", widget: "string", required: false }
+              - { label: "대상", name: "audience", widget: "string", required: false }
+            }
+
+  - name: "news"
+    label: "소식"
+    files:
+      - file: "content/data/news.json"
+        label: "소식 목록"
+        name: "news"
+        fields:
+          - { label: "소식 목록", name: "items", widget: "list", summary: "{{date}} — {{title}}", fields:
+              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "분류 (예: 운영안내 / 모집 / 소식)", name: "tag", widget: "string" }
+              - { label: "제목", name: "title", widget: "string" }
+              - { label: "내용", name: "body", widget: "text", required: false }
+            }
+
+  - name: "finance"
+    label: "재무제표"
+    files:
+      - file: "content/data/finance.json"
+        label: "재무제표 목록"
+        name: "finance"
+        fields:
+          - { label: "재무제표 목록", name: "items", widget: "list", summary: "{{year}} — {{title}}", fields:
+              - { label: "연도", name: "year", widget: "string" }
+              - { label: "문서명", name: "title", widget: "string" }
+              - { label: "PDF 파일", name: "fileUrl", widget: "file", required: false, hint: "PDF를 업로드하면 자동으로 경로가 채워집니다." }
+            }
+
+  - name: "donations"
+    label: "기부금 내역"
+    files:
+      - file: "content/data/donations.json"
+        label: "기부금 내역"
+        name: "donations"
+        fields:
+          - { label: "기부금 목록", name: "items", widget: "list", summary: "{{year}} — {{name}}", fields:
+              - { label: "연도", name: "year", widget: "string" }
+              - { label: "후원자 (익명 가능)", name: "name", widget: "string" }
+              - { label: "금액", name: "amount", widget: "string" }
+              - { label: "사용 목적", name: "purpose", widget: "string", required: false }
+            }

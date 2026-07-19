@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프로그램 — 한국문화기획학교</title>
+<meta name="description" content="한국문화기획학교가 진행하는 교육, 살롱, 컨설팅 프로그램을 소개합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="programs">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">프로그램</p>
+      <h1>교육, 살롱, 컨설팅</h1>
+      <p class="lede">문화기획자를 위한 교육과정부터 지자체·기관과 함께하는 컨설팅까지, 한국문화기획학교가 운영하는 프로그램입니다. 새 프로그램은 이 페이지에 계속 추가됩니다.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="card-grid" id="programGrid">
+        <p>프로그램을 불러오는 중입니다…</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await loadJSON('/content/data/programs.json');
+  const host = document.getElementById('programGrid');
+  if(!data || !data.items || !data.items.length){
+    host.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다. 관리자 페이지(/admin)에서 새 프로그램을 추가해 주세요.</div>`;
+    return;
+  }
+  host.innerHTML = data.items.map(p => `
+    <article class="ticket">
+      <div class="status">${escapeHTML(p.status||'')}</div>
+      <h3>${escapeHTML(p.title||'')}</h3>
+      <p>${escapeHTML(p.summary||'')}</p>
+      <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')}</div>
+    </article>
+  `).join('');
+});
+</script>
+</body>
+</html>

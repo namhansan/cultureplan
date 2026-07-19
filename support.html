@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>후원·재정 — 한국문화기획학교</title>
+<meta name="description" content="한국문화기획학교 후원 안내, 연도별 재무제표, 기부금 내역을 투명하게 공개합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="support">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">후원·재정</p>
+      <h1>투명하게 운영합니다</h1>
+      <p class="lede">한국문화기획학교는 회원과 후원자, 관계 기관에 재정 현황을 투명하게 공개합니다.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap support-box">
+      <div>
+        <p class="eyebrow" style="color:var(--stamp);">후원 안내</p>
+        <h2>문화기획의 다음 25년,<br>함께 만들어주세요</h2>
+        <p>회비, 후원, 협업 제안은 언제든 환영합니다. 후원 계좌 및 절차는 사무국으로 문의해 주시면 안내해 드립니다.</p>
+        <div class="cta-row">
+          <a class="btn" href="/contact.html">후원 문의하기</a>
+        </div>
+      </div>
+      <dl>
+        <dt>TEL</dt><dd>02-749-6365</dd>
+        <dt>MAIL</dt><dd>kacs2013@naver.com</dd>
+        <dt>계좌</dt><dd>사무국 문의 시 안내</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">재무제표</p>
+        <h2>연도별 재무제표</h2>
+      </div>
+      <table class="doc-table" id="financeTable">
+        <thead><tr><th>연도</th><th>문서</th><th>다운로드</th></tr></thead>
+        <tbody><tr><td colspan="3">불러오는 중…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">기부금 내역</p>
+        <h2>기부금 사용 내역</h2>
+      </div>
+      <table class="doc-table" id="donationTable">
+        <thead><tr><th>연도</th><th>후원자</th><th>금액</th><th>사용 목적</th></tr></thead>
+        <tbody><tr><td colspan="4">불러오는 중…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const finance = await loadJSON('/content/data/finance.json');
+  const fBody = document.querySelector('#financeTable tbody');
+  if(finance && finance.items && finance.items.length){
+    fBody.innerHTML = finance.items.map(f => `
+      <tr>
+        <td>${escapeHTML(f.year||'')}</td>
+        <td>${escapeHTML(f.title||'')}</td>
+        <td>${f.fileUrl ? `<a href="${encodeURI(f.fileUrl)}" target="_blank" rel="noopener">PDF 보기</a>` : '<span style="color:var(--ink-soft);">준비 중</span>'}</td>
+      </tr>
+    `).join('');
+  } else {
+    fBody.innerHTML = `<tr><td colspan="3">등록된 재무제표가 없습니다.</td></tr>`;
+  }
+
+  const donations = await loadJSON('/content/data/donations.json');
+  const dBody = document.querySelector('#donationTable tbody');
+  if(donations && donations.items && donations.items.length){
+    dBody.innerHTML = donations.items.map(d => `
+      <tr>
+        <td>${escapeHTML(d.year||'')}</td>
+        <td>${escapeHTML(d.name||'')}</td>
+        <td>${escapeHTML(d.amount||'')}</td>
+        <td>${escapeHTML(d.purpose||'')}</td>
+      </tr>
+    `).join('');
+  } else {
+    dBody.innerHTML = `<tr><td colspan="4">아직 공개된 기부금 내역이 없습니다. 관리자 페이지(/admin)에서 추가할 수 있습니다.</td></tr>`;
+  }
+});
+</script>
+</body>
+</html>
