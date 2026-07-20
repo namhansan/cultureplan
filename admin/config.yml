@@ -16,13 +16,14 @@ collections:
         name: "programs"
         fields:
           - { label: "프로그램 목록", name: "items", widget: "list", summary: "{{title}}", fields:
-              - { label: "고유 주소 (영문/숫자, 공백 없이. 예: salon-tomorrow)", name: "slug", widget: "string", hint: "프로그램 상세페이지 주소로 사용됩니다. 등록 후에는 바꾸지 마세요." }
+              - { label: "고유 주소 (영문/숫자, 공백 없이. 예: salon-tomorrow)", name: "slug", widget: "string", required: false, hint: "내부 상세페이지 주소로 사용됩니다. 외부 링크 프로그램이면 비워두고 아래 '외부 링크'를 채워주세요." }
               - { label: "제목", name: "title", widget: "string" }
               - { label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)", name: "status", widget: "string" }
               - { label: "소개 (카드에 짧게 보이는 문구)", name: "summary", widget: "text" }
               - { label: "운영 시기", name: "period", widget: "string", required: false }
               - { label: "대상", name: "audience", widget: "string", required: false }
-              - { label: "상세 내용 (상세페이지 본문)", name: "detail", widget: "text", required: false }
+              - { label: "상세 내용 (내부 상세페이지 본문. 외부 링크 프로그램이면 비워두세요)", name: "detail", widget: "text", required: false }
+              - { label: "외부 링크 (한국축제지원센터처럼 다른 사이트로 보낼 때만 입력)", name: "externalUrl", widget: "string", required: false, hint: "입력하면 카드가 이 주소로 바로 연결되고, 상세 내용은 무시됩니다." }
             }
 
   - name: "news"

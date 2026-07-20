@@ -267,6 +267,41 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
 .area-card p{ margin:0; font-size:.96rem; color:var(--ink); font-weight:500; }
 @media (max-width:700px){ .area-grid{ grid-template-columns:1fr; } }
 
+/* Business areas — detailed cards (7 areas, with flagship project + examples) */
+.biz-list{ display:flex; flex-direction:column; gap:16px; }
+.biz-card{
+  background:var(--white); border:1px solid var(--line-strong); border-radius:14px;
+  padding:28px clamp(20px,4vw,34px); display:grid; grid-template-columns:48px 1fr; gap:20px;
+}
+.biz-card .num{
+  width:44px; height:44px; border-radius:50%; background:var(--stamp); color:var(--white);
+  font-family:var(--mono); font-weight:700; display:flex; align-items:center; justify-content:center;
+  font-size:1rem; flex:none;
+}
+.biz-card h3{ font-size:1.16rem; margin:0 0 4px; }
+.biz-card .sub{ font-size:.86rem; color:var(--ink-soft); margin-bottom:16px; }
+.biz-card .flagship{
+  background:var(--paper-deep); border-radius:10px; padding:12px 16px; font-size:.9rem;
+  margin-bottom:14px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;
+}
+.biz-card .flagship b{ color:var(--ink); }
+.biz-card .flagship .badge{ font-family:var(--mono); font-size:.7rem; color:var(--stamp-deep); border:1px solid var(--stamp); border-radius:999px; padding:3px 10px; white-space:nowrap; }
+.biz-card ul{ margin:0 0 14px; padding-left:18px; font-size:.9rem; color:var(--ink-soft); }
+.biz-card ul li{ margin-bottom:5px; }
+.biz-card .issuer{ font-family:var(--mono); font-size:.74rem; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:10px; }
+@media (max-width:600px){ .biz-card{ grid-template-columns:1fr; } }
+
+/* Partner org connector card (e.g. 한국축제지원센터) */
+.partner-card{
+  display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  background:var(--ink); color:var(--paper); border-radius:16px; padding:32px clamp(20px,4vw,40px);
+}
+.partner-card h3{ color:var(--white); margin-bottom:6px; }
+.partner-card p{ color:rgba(251,250,246,0.78); margin:0; max-width:52ch; }
+.partner-card .btn{ border-color:var(--paper); color:var(--white); flex:none; }
+.partner-card .btn:hover{ background:var(--paper); color:var(--ink); }
+.partner-card .tag-soon{ font-family:var(--mono); font-size:.68rem; color:var(--stamp); border:1px solid var(--stamp); border-radius:999px; padding:3px 10px; margin-left:10px; vertical-align:middle; }
+
 /* Business areas / network chips */
 .area-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
 .area-list li{

@@ -86,6 +86,22 @@ function escapeHTML(s=''){
   return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// ---- shared program card renderer (handles internal detail pages + external links, e.g. 한국축제지원센터) ----
+function renderProgramCard(p){
+  const isExternal = !!p.externalUrl;
+  const href = isExternal ? p.externalUrl : `/program-detail.html?slug=${encodeURIComponent(p.slug||'')}`;
+  const attrs = isExternal ? 'target="_blank" rel="noopener"' : '';
+  const linkLabel = isExternal ? '사이트 방문 ↗' : '자세히 →';
+  return `
+    <a class="ticket" href="${href}" ${attrs}>
+      <div class="status">${escapeHTML(p.status||'')}</div>
+      <h3>${escapeHTML(p.title||'')}</h3>
+      <p>${escapeHTML(p.summary||'')}</p>
+      <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')} <span class="arrow">${linkLabel}</span></div>
+    </a>
+  `;
+}
+
 // ---- back to top ----
 function initBackToTop(){
   const btn = document.createElement('button');

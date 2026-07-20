@@ -42,14 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     host.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다. 관리자 페이지(/admin)에서 새 프로그램을 추가해 주세요.</div>`;
     return;
   }
-  host.innerHTML = data.items.map(p => `
-    <a class="ticket" href="/program-detail.html?slug=${encodeURIComponent(p.slug||'')}">
-      <div class="status">${escapeHTML(p.status||'')}</div>
-      <h3>${escapeHTML(p.title||'')}</h3>
-      <p>${escapeHTML(p.summary||'')}</p>
-      <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')} <span class="arrow">자세히 →</span></div>
-    </a>
-  `).join('');
+  host.innerHTML = data.items.map(renderProgramCard).join('');
 });
 </script>
 </body>
