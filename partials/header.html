@@ -17,10 +17,44 @@
     <span></span><span></span><span></span>
   </button>
   <nav class="nav" id="siteNav">
-    <a href="/about.html" data-key="about">소개</a>
-    <a href="/programs.html" data-key="programs">프로그램</a>
+
+    <div class="nav-item" data-key="about">
+      <button class="nav-toplink" type="button">소개 <svg class="chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5"/></svg></button>
+      <div class="dropdown">
+        <a href="/about.html">사단법인 소개 전체</a>
+        <a href="/about.html#greeting">인사말</a>
+        <a href="/about.html#philosophy">철학과 정신</a>
+        <a href="/about.html#history">발자취</a>
+        <a href="/about.html#areas">사업영역</a>
+        <a href="/about.html#network">전문가 네트워크</a>
+        <a href="/about.html#orgchart">조직도</a>
+      </div>
+    </div>
+
+    <div class="nav-item" data-key="programs">
+      <button class="nav-toplink" type="button">프로그램 <svg class="chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5"/></svg></button>
+      <div class="dropdown">
+        <a href="/programs.html">전체 프로그램</a>
+        <a href="/programs.html#education">교육·양성과정</a>
+        <a href="/programs.html#festival">축제 컨설팅</a>
+        <a href="/programs.html#space">상설 공간 운영</a>
+        <a href="/programs.html#network">자체 기획·네트워크</a>
+        <a href="https://kfsc-website.vercel.app/" target="_blank" rel="noopener">한국축제지원센터 ↗</a>
+      </div>
+    </div>
+
     <a href="/news.html" data-key="news">소식</a>
-    <a href="/support.html" data-key="support">후원·재정</a>
+
+    <div class="nav-item" data-key="support">
+      <button class="nav-toplink" type="button">후원·재정 <svg class="chev" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5"/></svg></button>
+      <div class="dropdown">
+        <a href="/support.html">후원 안내</a>
+        <a href="/support.html#finance">재무제표</a>
+        <a href="/support.html#donations">기부금 내역</a>
+      </div>
+    </div>
+
     <a href="/contact.html" data-key="contact">오시는 길</a>
+    <a href="/inquiry.html" data-key="inquiry">문의하기</a>
   </nav>
 </div>

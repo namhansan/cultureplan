@@ -13,21 +13,39 @@ async function loadPartials(){
   if(headerSlot){ headerSlot.innerHTML = h; }
   if(footerSlot){ footerSlot.innerHTML = f; }
 
-  // active nav highlight
+  // active nav highlight (top-level links + dropdown parent items)
   const key = document.body.getAttribute('data-page');
-  document.querySelectorAll('.nav a').forEach(a=>{
-    if(a.getAttribute('data-key') === key){ a.setAttribute('aria-current','page'); }
+  document.querySelectorAll('.nav > a[data-key]').forEach(a=>{
+    if(a.getAttribute('data-key') === key){ a.classList.add('nav-active'); a.setAttribute('aria-current','page'); }
+  });
+  document.querySelectorAll('.nav-item[data-key]').forEach(item=>{
+    if(item.getAttribute('data-key') === key){ item.classList.add('nav-active'); }
+  });
+
+  // dropdown toggle (click-based, works for both desktop fallback and mobile accordion)
+  document.querySelectorAll('.nav-item').forEach(item=>{
+    const toplink = item.querySelector('.nav-toplink');
+    if(!toplink) return;
+    toplink.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.nav-item.open').forEach(o => { if(o !== item) o.classList.remove('open'); });
+      item.classList.toggle('open', !wasOpen);
+    });
+  });
+  document.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-item.open').forEach(o => o.classList.remove('open'));
   });
 
   // mobile nav toggle
   const toggle = document.getElementById('navToggle');
   const nav = document.getElementById('siteNav');
   if(toggle && nav){
-    toggle.addEventListener('click', ()=>{
+    toggle.addEventListener('click', () => {
       const open = nav.classList.toggle('open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
-    nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    nav.querySelectorAll('.nav > a, .dropdown a').forEach(a=>a.addEventListener('click',()=>{
       nav.classList.remove('open');
       toggle.setAttribute('aria-expanded','false');
     }));
@@ -86,18 +104,37 @@ function escapeHTML(s=''){
   return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// ---- program category metadata (shared across cards, grouped list, detail hero) ----
+const PROGRAM_CATEGORIES = {
+  education: { label: '교육·양성과정', color: '#16233F' },
+  festival:  { label: '축제 컨설팅',   color: '#B23A33' },
+  space:     { label: '상설 공간 운영', color: '#1F5C43' },
+  network:   { label: '자체 기획·네트워크', color: '#7A5C2E' }
+};
+function categoryMeta(key){
+  return PROGRAM_CATEGORIES[key] || { label: '프로그램', color: '#16233F' };
+}
+
 // ---- shared program card renderer (handles internal detail pages + external links, e.g. 한국축제지원센터) ----
 function renderProgramCard(p){
   const isExternal = !!p.externalUrl;
   const href = isExternal ? p.externalUrl : `/program-detail.html?slug=${encodeURIComponent(p.slug||'')}`;
   const attrs = isExternal ? 'target="_blank" rel="noopener"' : '';
   const linkLabel = isExternal ? '사이트 방문 ↗' : '자세히 →';
+  const cat = categoryMeta(p.category);
+  const media = p.image
+    ? `<div class="ticket-media" style="background-image:url('${encodeURI(p.image)}');"></div>`
+    : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${cat.color}, ${cat.color}cc);"><span>${escapeHTML(cat.label)}</span></div>`;
   return `
     <a class="ticket" href="${href}" ${attrs}>
-      <div class="status">${escapeHTML(p.status||'')}</div>
-      <h3>${escapeHTML(p.title||'')}</h3>
-      <p>${escapeHTML(p.summary||'')}</p>
-      <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')} <span class="arrow">${linkLabel}</span></div>
+      ${media}
+      <div class="ticket-body">
+        <span class="cat-chip" style="color:${cat.color}; border-color:${cat.color};">${escapeHTML(cat.label)}</span>
+        <div class="status">${escapeHTML(p.status||'')}</div>
+        <h3>${escapeHTML(p.title||'')}</h3>
+        <p>${escapeHTML(p.summary||'')}</p>
+        <div class="meta">${escapeHTML(p.period||'')} · ${escapeHTML(p.audience||'')} <span class="arrow">${linkLabel}</span></div>
+      </div>
     </a>
   `;
 }

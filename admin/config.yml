@@ -18,10 +18,17 @@ collections:
           - { label: "프로그램 목록", name: "items", widget: "list", summary: "{{title}}", fields:
               - { label: "고유 주소 (영문/숫자, 공백 없이. 예: salon-tomorrow)", name: "slug", widget: "string", required: false, hint: "내부 상세페이지 주소로 사용됩니다. 외부 링크 프로그램이면 비워두고 아래 '외부 링크'를 채워주세요." }
               - { label: "제목", name: "title", widget: "string" }
+              - { label: "분류", name: "category", widget: "select", options: [
+                  { label: "교육·양성과정", value: "education" },
+                  { label: "축제 컨설팅", value: "festival" },
+                  { label: "상설 공간 운영", value: "space" },
+                  { label: "자체 기획·네트워크", value: "network" }
+                ], default: "network" }
               - { label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)", name: "status", widget: "string" }
               - { label: "소개 (카드에 짧게 보이는 문구)", name: "summary", widget: "text" }
               - { label: "운영 시기", name: "period", widget: "string", required: false }
               - { label: "대상", name: "audience", widget: "string", required: false }
+              - { label: "포스터·대표 이미지 (선택)", name: "image", widget: "image", required: false, hint: "업로드하면 상세페이지 상단에 크게 표시됩니다. 비워두면 분류 색상 배너가 대신 표시됩니다." }
               - { label: "상세 내용 (내부 상세페이지 본문. 외부 링크 프로그램이면 비워두세요)", name: "detail", widget: "text", required: false }
               - { label: "외부 링크 (한국축제지원센터처럼 다른 사이트로 보낼 때만 입력)", name: "externalUrl", widget: "string", required: false, hint: "입력하면 카드가 이 주소로 바로 연결되고, 상세 내용은 무시됩니다." }
             }

@@ -17,6 +17,7 @@
   <section class="page-hero">
     <div class="wrap">
       <a class="back-link" href="/programs.html">← 프로그램 목록으로</a>
+      <div id="detailBanner" style="width:100%; height:220px; border-radius:14px; margin-bottom:28px; display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--mono); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase;"></div>
       <div id="detailHost">
         <p>불러오는 중입니다…</p>
       </div>
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const item = data && data.items ? data.items.find(p => p.slug === slug) : null;
 
   if(!item){
+    document.getElementById('detailBanner').style.display = 'none';
     host.innerHTML = `
       <div class="empty-note">
         요청하신 프로그램을 찾을 수 없습니다. <a href="/programs.html" style="color:var(--stamp-deep); font-weight:600;">전체 프로그램 목록</a>으로 돌아가 주세요.
@@ -52,7 +54,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   document.title = item.title + ' — 한국문화기획학교';
+  const cat = categoryMeta(item.category);
+  const bannerStyle = item.image
+    ? `background-image:url('${encodeURI(item.image)}'); background-size:cover; background-position:center;`
+    : `background:linear-gradient(135deg, ${cat.color}, ${cat.color}99);`;
+
+  document.getElementById('detailBanner').style.cssText = bannerStyle;
+  document.getElementById('detailBanner').innerHTML = item.image ? '' : `<span>${escapeHTML(cat.label)}</span>`;
+
   host.innerHTML = `
+    <span class="cat-chip" style="color:${cat.color}; border-color:${cat.color}; margin-bottom:14px;">${escapeHTML(cat.label)}</span>
     <p class="eyebrow">${escapeHTML(item.status||'')}</p>
     <h1>${escapeHTML(item.title||'')}</h1>
     <p class="lede">${escapeHTML(item.summary||'')}</p>

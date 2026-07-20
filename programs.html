@@ -24,10 +24,8 @@
   </section>
 
   <section class="section">
-    <div class="wrap">
-      <div class="card-grid" id="programGrid">
-        <p>프로그램을 불러오는 중입니다…</p>
-      </div>
+    <div class="wrap" id="programGroups">
+      <p>프로그램을 불러오는 중입니다…</p>
     </div>
   </section>
 </main>
@@ -37,12 +35,29 @@
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadJSON('/content/data/programs.json');
-  const host = document.getElementById('programGrid');
+  const host = document.getElementById('programGroups');
   if(!data || !data.items || !data.items.length){
     host.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다. 관리자 페이지(/admin)에서 새 프로그램을 추가해 주세요.</div>`;
     return;
   }
-  host.innerHTML = data.items.map(renderProgramCard).join('');
+  const order = ['education','festival','space','network'];
+  const groups = {};
+  data.items.forEach(p => {
+    const key = order.includes(p.category) ? p.category : 'network';
+    (groups[key] = groups[key] || []).push(p);
+  });
+  host.innerHTML = order.filter(k => groups[k] && groups[k].length).map(key => {
+    const meta = categoryMeta(key);
+    return `
+      <div class="program-group" id="${key}" style="margin-bottom:52px;">
+        <div class="section-head" style="display:flex; align-items:center; gap:12px; margin-bottom:22px;">
+          <span style="width:10px; height:10px; border-radius:50%; background:${meta.color}; display:inline-block;"></span>
+          <h2 style="margin:0; font-size:1.35rem;">${escapeHTML(meta.label)}</h2>
+        </div>
+        <div class="card-grid">${groups[key].map(renderProgramCard).join('')}</div>
+      </div>
+    `;
+  }).join('');
 });
 </script>
 </body>
