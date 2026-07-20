@@ -34,24 +34,27 @@
     <div class="wrap">
       <div class="section-head" style="margin-bottom:36px;">
         <p class="eyebrow">숫자로 보는 한국문화기획학교</p>
-        <h2>25년, 우리가 쌓아온 기록</h2>
+        <h2><span id="yearsHeading">25</span>년, 우리가 쌓아온 기록</h2>
       </div>
-      <div class="stat-row">
-        <div class="stat-coin">
-          <div class="ring"><span class="n">25</span></div>
-          <span class="l">YEARS · 2000년부터</span>
-        </div>
-        <div class="stat-coin">
-          <div class="ring"><span class="n">511+</span></div>
-          <span class="l">교육 수료생</span>
-        </div>
-        <div class="stat-coin">
-          <div class="ring"><span class="n">50+</span></div>
-          <span class="l">회원 문화기획자</span>
-        </div>
-        <div class="stat-coin">
-          <div class="ring"><span class="n">15</span></div>
-          <span class="l">이사진 구성</span>
+      <div class="stat-watermark-wrap">
+        <span class="stat-watermark" id="statsWatermark">2000—2025</span>
+        <div class="stat-row">
+          <div class="stat-coin">
+            <div class="ring"><span class="n" id="yearsStat">25</span></div>
+            <span class="l">YEARS · 2000년부터</span>
+          </div>
+          <div class="stat-coin">
+            <div class="ring"><span class="n">511+</span></div>
+            <span class="l">교육 수료생</span>
+          </div>
+          <div class="stat-coin">
+            <div class="ring"><span class="n">50+</span></div>
+            <span class="l">회원 문화기획자</span>
+          </div>
+          <div class="stat-coin">
+            <div class="ring"><span class="n">15</span></div>
+            <span class="l">이사진 구성</span>
+          </div>
         </div>
       </div>
     </div>
@@ -152,6 +155,16 @@
 <script src="/js/main.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
+  const startYear = 2000;
+  const currentYear = new Date().getFullYear();
+  const yearsActive = currentYear - startYear;
+  const watermarkEl = document.getElementById('statsWatermark');
+  if(watermarkEl){ watermarkEl.textContent = `${startYear}—${currentYear}`; }
+  const yearsStatEl = document.getElementById('yearsStat');
+  if(yearsStatEl){ yearsStatEl.textContent = String(yearsActive); }
+  const yearsHeadingEl = document.getElementById('yearsHeading');
+  if(yearsHeadingEl){ yearsHeadingEl.textContent = String(yearsActive); }
+
   renderSeal(document.getElementById('heroSeal'), {
     centerNum: '2000',
     centerLbl: 'SINCE · 문화기획'

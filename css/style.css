@@ -372,6 +372,16 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
 }
 .area-list li::before{ content:"—"; color:var(--stamp); flex:none; }
 
+/* Stats watermark background (large ghost year range behind the stat coins) */
+.stat-watermark-wrap{ position:relative; overflow:hidden; border-radius:16px; }
+.stat-watermark{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-weight:900; font-size:clamp(3rem, 9vw, 6rem);
+  color:var(--ink); opacity:0.05; white-space:nowrap; pointer-events:none; user-select:none;
+  letter-spacing:-0.02em;
+}
+.stat-watermark-wrap .stat-row{ position:relative; padding-top:8px; padding-bottom:16px; }
+
 /* Stat coins — a row of seal-like medallions on a perforated line */
 .stat-row{
   display:flex; justify-content:space-between; align-items:flex-end; gap:16px;
