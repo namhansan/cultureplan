@@ -527,6 +527,8 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
 }
 .footer-bottom address{ font-style:normal; }
 .footer-bottom .copyright{ font-family:var(--mono); font-size:.72rem; }
+.admin-link{ color:var(--ink-soft); opacity:0.6; text-decoration:none; }
+.admin-link:hover{ opacity:1; text-decoration:underline; }
 @media (max-width:900px){
   .footer-top{ grid-template-columns:1fr 1fr; }
 }
