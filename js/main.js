@@ -67,7 +67,7 @@ function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CU
   // copies once we can measure actual glyph width in the DOM (see below).
   const seedRepeated = text.repeat(6);
   el.innerHTML = `
-    <svg class="seal" viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한국문화기획학교 인증 마크">
+    <svg class="seal" viewBox="-9 -9 118 118" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한국문화기획학교 인증 마크">
       <circle class="ring" cx="${cx}" cy="${cy}" r="${r}" stroke-width="0.6"/>
       <circle class="ring" cx="${cx}" cy="${cy}" r="${r-6}" stroke-width="0.4" opacity="0.5"/>
       <path id="${pathId}" fill="none" d="M ${cx-r},${cy} a ${r},${r} 0 1,1 ${2*r},0 a ${r},${r} 0 1,1 -${2*r},0" />
