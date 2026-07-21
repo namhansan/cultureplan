@@ -62,14 +62,17 @@ function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CU
   const r = 46;
   const cx = 50, cy = 50;
   const pathId = 'sealring-' + Math.random().toString(36).slice(2,9);
-  const repeated = (text + text + text).slice(0, 140);
+  const circumference = 2 * Math.PI * r;
+  // seed with a generous over-long run; we trim to a whole number of clean
+  // copies once we can measure actual glyph width in the DOM (see below).
+  const seedRepeated = text.repeat(6);
   el.innerHTML = `
     <svg class="seal" viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한국문화기획학교 인증 마크">
       <circle class="ring" cx="${cx}" cy="${cy}" r="${r}" stroke-width="0.6"/>
       <circle class="ring" cx="${cx}" cy="${cy}" r="${r-6}" stroke-width="0.4" opacity="0.5"/>
       <path id="${pathId}" fill="none" d="M ${cx-r},${cy} a ${r},${r} 0 1,1 ${2*r},0 a ${r},${r} 0 1,1 -${2*r},0" />
       <text class="ring-text">
-        <textPath href="#${pathId}" startOffset="0%">${repeated}</textPath>
+        <textPath href="#${pathId}" startOffset="0%">${seedRepeated}</textPath>
       </text>
       <g class="bars" transform="translate(50 50) scale(0.9) translate(-20 -20)">
         <rect x="4"  y="24" width="5" height="14" rx="1"/>
@@ -79,6 +82,15 @@ function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CU
       </g>
     </svg>
   `;
+  // Measure how wide ONE copy of the base phrase renders as, then lay down only
+  // as many *whole* copies as actually fit the ring — never a partial/cut copy.
+  const tp = el.querySelector('textPath');
+  if(tp && tp.getComputedTextLength){
+    tp.textContent = text;
+    const singleWidth = tp.getComputedTextLength() || 1;
+    const fullCopies = Math.max(1, Math.floor(circumference / singleWidth));
+    tp.textContent = text.repeat(fullCopies);
+  }
   if(centerLbl || centerNum){
     const core = document.createElement('div');
     core.className = 'seal-core';
