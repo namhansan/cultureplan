@@ -15,23 +15,60 @@ collections:
         label: "프로그램 목록"
         name: "programs"
         fields:
-          - { label: "프로그램 목록", name: "items", widget: "list", summary: "{{title}}", fields:
-              - { label: "고유 주소 (영문/숫자, 공백 없이. 예: salon-tomorrow)", name: "slug", widget: "string", required: false, hint: "내부 상세페이지 주소로 사용됩니다. 외부 링크 프로그램이면 비워두고 아래 '외부 링크'를 채워주세요." }
-              - { label: "제목", name: "title", widget: "string" }
-              - { label: "분류", name: "category", widget: "select", options: [
-                  { label: "교육·양성과정", value: "education" },
-                  { label: "축제 컨설팅", value: "festival" },
-                  { label: "상설 공간 운영", value: "space" },
-                  { label: "자체 기획·네트워크", value: "network" }
-                ], default: "network" }
-              - { label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)", name: "status", widget: "string" }
-              - { label: "소개 (카드에 짧게 보이는 문구)", name: "summary", widget: "text" }
-              - { label: "운영 시기", name: "period", widget: "string", required: false }
-              - { label: "대상", name: "audience", widget: "string", required: false }
-              - { label: "포스터·대표 이미지 (선택)", name: "image", widget: "image", required: false, hint: "업로드하면 상세페이지 상단에 크게 표시됩니다. 비워두면 분류 색상 배너가 대신 표시됩니다." }
-              - { label: "상세 내용 (내부 상세페이지 본문. 외부 링크 프로그램이면 비워두세요)", name: "detail", widget: "text", required: false }
-              - { label: "외부 링크 (한국축제지원센터처럼 다른 사이트로 보낼 때만 입력)", name: "externalUrl", widget: "string", required: false, hint: "입력하면 카드가 이 주소로 바로 연결되고, 상세 내용은 무시됩니다." }
-            }
+          - label: "프로그램 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - label: "고유 주소 (영문/숫자, 공백 없이. 예: salon-tomorrow)"
+                name: "slug"
+                widget: "string"
+                required: false
+                hint: "내부 상세페이지 주소로 사용됩니다. 외부 링크 프로그램이면 비워두고 아래 '외부 링크'를 채워주세요."
+              - label: "제목"
+                name: "title"
+                widget: "string"
+              - label: "분류"
+                name: "category"
+                widget: "select"
+                options:
+                  - label: "교육·양성과정"
+                    value: "education"
+                  - label: "축제 컨설팅"
+                    value: "festival"
+                  - label: "상설 공간 운영"
+                    value: "space"
+                  - label: "자체 기획·네트워크"
+                    value: "network"
+                default: "network"
+              - label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)"
+                name: "status"
+                widget: "string"
+              - label: "소개 (카드에 짧게 보이는 문구)"
+                name: "summary"
+                widget: "text"
+              - label: "운영 시기"
+                name: "period"
+                widget: "string"
+                required: false
+              - label: "대상"
+                name: "audience"
+                widget: "string"
+                required: false
+              - label: "포스터·대표 이미지 (선택)"
+                name: "image"
+                widget: "image"
+                required: false
+                hint: "업로드하면 상세페이지 상단에 크게 표시됩니다. 비워두면 분류 색상 배너가 대신 표시됩니다."
+              - label: "상세 내용 (내부 상세페이지 본문. 외부 링크 프로그램이면 비워두세요)"
+                name: "detail"
+                widget: "text"
+                required: false
+              - label: "외부 링크 (한국축제지원센터처럼 다른 사이트로 보낼 때만 입력)"
+                name: "externalUrl"
+                widget: "string"
+                required: false
+                hint: "입력하면 카드가 이 주소로 바로 연결되고, 상세 내용은 무시됩니다."
 
   - name: "news"
     label: "소식"
@@ -40,14 +77,35 @@ collections:
         label: "소식 목록"
         name: "news"
         fields:
-          - { label: "소식 목록", name: "items", widget: "list", summary: "{{date}} — {{title}}", fields:
-              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
-              - { label: "분류 (예: 운영안내 / 모집 / 소식 / 공시)", name: "tag", widget: "string" }
-              - { label: "제목", name: "title", widget: "string" }
-              - { label: "내용", name: "body", widget: "text", required: false }
-              - { label: "링크 URL (선택)", name: "link", widget: "string", required: false, hint: "외부 링크가 있으면 입력 (예: 홈택스 조회 페이지)" }
-              - { label: "링크 버튼 이름 (선택)", name: "linkLabel", widget: "string", required: false, hint: "예: 국세청 홈택스 바로가기" }
-            }
+          - label: "소식 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{date}} — {{title}}"
+            fields:
+              - label: "날짜"
+                name: "date"
+                widget: "date"
+                format: "YYYY-MM-DD"
+              - label: "분류 (예: 운영안내 / 모집 / 소식 / 공시)"
+                name: "tag"
+                widget: "string"
+              - label: "제목"
+                name: "title"
+                widget: "string"
+              - label: "내용"
+                name: "body"
+                widget: "text"
+                required: false
+              - label: "링크 URL (선택)"
+                name: "link"
+                widget: "string"
+                required: false
+                hint: "외부 링크가 있으면 입력 (예: 홈택스 조회 페이지)"
+              - label: "링크 버튼 이름 (선택)"
+                name: "linkLabel"
+                widget: "string"
+                required: false
+                hint: "예: 국세청 홈택스 바로가기"
 
   - name: "finance"
     label: "재무제표"
@@ -56,11 +114,22 @@ collections:
         label: "재무제표 목록"
         name: "finance"
         fields:
-          - { label: "재무제표 목록", name: "items", widget: "list", summary: "{{year}} — {{title}}", fields:
-              - { label: "연도", name: "year", widget: "string" }
-              - { label: "문서명", name: "title", widget: "string" }
-              - { label: "PDF 파일", name: "fileUrl", widget: "file", required: false, hint: "PDF를 업로드하면 자동으로 경로가 채워집니다." }
-            }
+          - label: "재무제표 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{year}} — {{title}}"
+            fields:
+              - label: "연도"
+                name: "year"
+                widget: "string"
+              - label: "문서명"
+                name: "title"
+                widget: "string"
+              - label: "PDF 파일"
+                name: "fileUrl"
+                widget: "file"
+                required: false
+                hint: "PDF를 업로드하면 자동으로 경로가 채워집니다."
 
   - name: "donations"
     label: "기부금 내역"
@@ -69,9 +138,21 @@ collections:
         label: "기부금 내역"
         name: "donations"
         fields:
-          - { label: "기부금 목록", name: "items", widget: "list", summary: "{{year}} — {{name}}", fields:
-              - { label: "연도", name: "year", widget: "string" }
-              - { label: "후원자 (익명 가능)", name: "name", widget: "string" }
-              - { label: "금액", name: "amount", widget: "string" }
-              - { label: "사용 목적", name: "purpose", widget: "string", required: false }
-            }
+          - label: "기부금 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{year}} — {{name}}"
+            fields:
+              - label: "연도"
+                name: "year"
+                widget: "string"
+              - label: "후원자 (익명 가능)"
+                name: "name"
+                widget: "string"
+              - label: "금액"
+                name: "amount"
+                widget: "string"
+              - label: "사용 목적"
+                name: "purpose"
+                widget: "string"
+                required: false
