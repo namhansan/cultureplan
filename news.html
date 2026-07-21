@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       <span class="date">${escapeHTML(n.date||'')}</span>
       <div>
         <h3>${escapeHTML(n.title||'')}</h3>
-        ${n.body ? `<p style="margin-top:6px; font-size:.9rem;">${escapeHTML(n.body)}</p>` : ''}
+        ${n.body ? `<p style="margin-top:6px; font-size:.9rem; white-space:pre-line;">${escapeHTML(n.body)}</p>` : ''}
+        ${n.link ? `<p style="margin-top:10px;"><a class="btn" href="${encodeURI(n.link)}" target="_blank" rel="noopener">${escapeHTML(n.linkLabel || '바로가기')} ↗</a></p>` : ''}
       </div>
       <span class="tag">${escapeHTML(n.tag||'')}</span>
     </div>

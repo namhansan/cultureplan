@@ -42,9 +42,11 @@ collections:
         fields:
           - { label: "소식 목록", name: "items", widget: "list", summary: "{{date}} — {{title}}", fields:
               - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
-              - { label: "분류 (예: 운영안내 / 모집 / 소식)", name: "tag", widget: "string" }
+              - { label: "분류 (예: 운영안내 / 모집 / 소식 / 공시)", name: "tag", widget: "string" }
               - { label: "제목", name: "title", widget: "string" }
               - { label: "내용", name: "body", widget: "text", required: false }
+              - { label: "링크 URL (선택)", name: "link", widget: "string", required: false, hint: "외부 링크가 있으면 입력 (예: 홈택스 조회 페이지)" }
+              - { label: "링크 버튼 이름 (선택)", name: "linkLabel", widget: "string", required: false, hint: "예: 국세청 홈택스 바로가기" }
             }
 
   - name: "finance"
