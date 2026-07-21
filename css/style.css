@@ -194,6 +194,7 @@ p{ margin:0 0 1em; }
   border-bottom:1px solid var(--line);
 }
 .hero .wrap{
+  position:relative; z-index:1;
   display:grid; grid-template-columns:1.15fr .85fr; gap:56px; align-items:center;
 }
 .hero h1{
@@ -203,8 +204,14 @@ p{ margin:0 0 1em; }
 .hero h1 .accent{ color:var(--stamp); }
 .hero .lede{ font-size:1.1rem; max-width:46ch; }
 .hero .cta-row{ display:flex; gap:12px; margin-top:28px; flex-wrap:wrap; }
+.hero-panel{
+  position:absolute; top:0; right:0; bottom:0; width:44%;
+  background:var(--ink); border-radius:0 0 0 28px;
+  z-index:0;
+}
 .hero-seal-wrap{
   justify-self:center; position:relative; width:min(320px, 80%);
+  z-index:1;
 }
 .hero-seal-wrap .seal{ width:100%; height:auto; animation:spin 34s linear infinite; }
 @keyframes spin{ to{ transform:rotate(360deg); } }
@@ -215,9 +222,17 @@ p{ margin:0 0 1em; }
 .hero-seal-wrap .seal-core .num{ font-family:var(--display); font-weight:700; font-size:2rem; color:var(--ink); }
 .hero-seal-wrap .seal-core .lbl{ font-family:var(--mono); font-size:.62rem; color:var(--ink-soft); letter-spacing:.08em; }
 
+/* seal sits on the navy hero-panel now, so flip it to light-on-dark */
+.hero-seal-wrap .seal .ring{ stroke:#FFFFFF; opacity:0.8; }
+.hero-seal-wrap .seal .ring-text{ fill:#F0997B; }
+.hero-seal-wrap .seal .bars rect{ fill:#FFFFFF; }
+.hero-seal-wrap .seal-core .num{ color:#FFFFFF; }
+.hero-seal-wrap .seal-core .lbl{ color:#D3D1C7; }
+
 @media (max-width:860px){
   .hero .wrap{ grid-template-columns:1fr; }
   .hero-seal-wrap{ width:200px; order:-1; }
+  .hero-panel{ width:100%; left:0; border-radius:0 0 28px 28px; height:260px; bottom:auto; }
 }
 
 /* =========================================================
