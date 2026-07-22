@@ -165,7 +165,27 @@ function initBackToTop(){
   }, {passive:true});
 }
 
+// ---- Netlify Identity global loader ----
+// Loads the Identity widget on every page so that invite / password-recovery
+// links (which land on the site root with a #invite_token=... hash) always
+// trigger the "set your password" popup, no matter which page they open on.
+function initIdentityGlobal(){
+  if(window.netlifyIdentity) return; // already loaded by this page (e.g. members.html)
+  const hadInviteToken = /invite_token=|recovery_token=/.test(window.location.hash);
+  const s = document.createElement('script');
+  s.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+  s.onload = () => {
+    if(!window.netlifyIdentity) return;
+    window.netlifyIdentity.on('login', () => {
+      if(hadInviteToken){ window.location.href = '/admin/'; }
+    });
+    window.netlifyIdentity.init();
+  };
+  document.head.appendChild(s);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadPartials();
   initBackToTop();
+  initIdentityGlobal();
 });

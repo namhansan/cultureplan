@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>콘텐츠 관리 — 한국문화기획학교</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>body{margin:0;}</style>
 </head>
 <body>
-  <div id="blocked" style="display:none; font-family:sans-serif; max-width:480px; margin:80px auto; text-align:center; line-height:1.6;">
-    <h2>관리자 권한이 없습니다</h2>
-    <p>이 계정은 홈페이지 콘텐츠를 수정할 수 있는 관리자 권한이 없습니다.<br>관리자 권한이 필요하면 사이트 관리자에게 문의해 주세요.</p>
-    <a href="/" style="color:#1F5C43;">홈페이지로 돌아가기</a>
-    <br><br>
-    <a href="#" id="logoutLink" style="color:#B23A33; font-size:.9rem;">로그아웃</a>
+  <div id="blocked" style="display:none; position:fixed; inset:0; z-index:9999; background:#fff; font-family:sans-serif;">
+    <div style="max-width:480px; margin:80px auto; text-align:center; line-height:1.6;">
+      <h2>관리자 권한이 없습니다</h2>
+      <p>이 계정은 홈페이지 콘텐츠를 수정할 수 있는 관리자 권한이 없습니다.<br>관리자 권한이 필요하면 사이트 관리자에게 문의해 주세요.</p>
+      <a href="/" style="color:#1F5C43;">홈페이지로 돌아가기</a>
+      <br><br>
+      <a href="#" id="logoutLink" style="color:#B23A33; font-size:.9rem;">로그아웃</a>
+    </div>
   </div>
-  <div id="cms-root"></div>
   <script>
     function hasAdminRole(user){
       var roles = (user && user.app_metadata && user.app_metadata.roles) || [];
@@ -23,8 +25,7 @@
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
         if (!user) {
-          window.netlifyIdentity.on("login", () => { window.location.reload(); });
-          window.netlifyIdentity.open();
+          window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
         } else if (!hasAdminRole(user)) {
           document.getElementById('blocked').style.display = 'block';
           document.getElementById('logoutLink').addEventListener('click', function(e){
@@ -32,14 +33,10 @@
             window.netlifyIdentity.logout();
             window.location.href = '/';
           });
-        } else {
-          var s = document.createElement('script');
-          s.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
-          document.body.appendChild(s);
         }
       });
-      window.netlifyIdentity.init();
     }
   </script>
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
