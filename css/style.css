@@ -76,12 +76,12 @@ p{ margin:0 0 1em; }
 }
 .site-header .wrap{
   display:flex; align-items:center; justify-content:space-between;
-  padding-top:16px; padding-bottom:16px;
+  padding-top:10px; padding-bottom:10px;
   gap:16px;
 }
 .brand{ display:flex; align-items:center; gap:12px; }
-.brand-logo{ height:52px; width:auto; display:block; }
-.f-col-brand .brand-logo{ height:48px; }
+.brand-logo{ height:68px; width:auto; display:block; }
+.f-col-brand .brand-logo{ height:58px; }
 
 .nav{ display:flex; align-items:center; gap:2px; }
 .nav > a{
