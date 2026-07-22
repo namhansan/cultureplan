@@ -107,6 +107,68 @@ collections:
                 required: false
                 hint: "예: 국세청 홈택스 바로가기"
 
+  - name: "partners"
+    label: "관련기관"
+    files:
+      - file: "content/data/partners.json"
+        label: "관련기관 목록"
+        name: "partners"
+        fields:
+          - label: "관련기관 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{name}}"
+            fields:
+              - label: "기관명"
+                name: "name"
+                widget: "string"
+              - label: "짧은 소개 (한 줄)"
+                name: "tagline"
+                widget: "string"
+                required: false
+              - label: "설명"
+                name: "description"
+                widget: "text"
+              - label: "웹사이트 주소"
+                name: "url"
+                widget: "string"
+              - label: "로고 이미지 (선택)"
+                name: "logo"
+                widget: "image"
+                required: false
+
+  - name: "member-resources"
+    label: "회원 전용 자료"
+    files:
+      - file: "content/data/member-resources.json"
+        label: "회원 전용 자료 목록"
+        name: "resources"
+        fields:
+          - label: "자료 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - label: "날짜"
+                name: "date"
+                widget: "date"
+                format: "YYYY-MM-DD"
+              - label: "제목"
+                name: "title"
+                widget: "string"
+              - label: "설명"
+                name: "description"
+                widget: "text"
+                required: false
+              - label: "첨부 파일 (PDF 등, 선택)"
+                name: "fileUrl"
+                widget: "file"
+                required: false
+              - label: "영상 링크 (유튜브 등, 선택)"
+                name: "videoUrl"
+                widget: "string"
+                required: false
+
   - name: "finance"
     label: "재무제표"
     files:

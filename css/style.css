@@ -80,10 +80,8 @@ p{ margin:0 0 1em; }
   gap:16px;
 }
 .brand{ display:flex; align-items:center; gap:12px; }
-.brand-mark{ width:34px; height:34px; flex:none; }
-.brand-text{ display:flex; flex-direction:column; line-height:1.15; }
-.brand-text .kr{ font-family:var(--display); font-weight:700; font-size:1.05rem; color:var(--ink); }
-.brand-text .en{ font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
+.brand-logo{ height:34px; width:auto; display:block; }
+.f-col-brand .brand-logo{ height:38px; }
 
 .nav{ display:flex; align-items:center; gap:2px; }
 .nav > a{

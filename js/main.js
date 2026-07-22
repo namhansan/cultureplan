@@ -75,10 +75,11 @@ function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CU
         <textPath href="#${pathId}" startOffset="0%">${seedRepeated}</textPath>
       </text>
       <g class="bars" transform="translate(50 50) scale(0.9) translate(-20 -20)">
-        <rect x="4"  y="24" width="5" height="14" rx="1"/>
-        <rect x="13" y="16" width="5" height="22" rx="1"/>
-        <rect x="22" y="8"  width="5" height="30" rx="1"/>
-        <rect x="31" y="2"  width="5" height="36" rx="1"/>
+        <rect x="2"  y="22" width="5" height="16" rx="1" transform="rotate(0 4.5 38)"/>
+        <rect x="10" y="14" width="5" height="24" rx="1" transform="rotate(-12 12.5 38)"/>
+        <rect x="18" y="4"  width="5" height="34" rx="1" transform="rotate(-30 20.5 38)"/>
+        <rect x="27" y="6"  width="5" height="32" rx="1" transform="rotate(-14 29.5 38)"/>
+        <rect x="35" y="0"  width="5" height="38" rx="1" transform="rotate(0 37.5 38)"/>
       </g>
     </svg>
   `;

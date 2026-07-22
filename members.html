@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원 전용 — 한국문화기획학교</title>
+<meta name="description" content="한국문화기획학교 회원 전용 자료실입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+  .member-gate{ text-align:center; padding:60px 20px; border:1px dashed var(--line-strong); border-radius:16px; }
+  .member-gate p{ color:var(--ink-soft); margin-bottom:20px; }
+  .member-topbar{ display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-bottom:24px; font-size:.86rem; color:var(--ink-soft); }
+  .resource-card{ border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin-bottom:14px; }
+  .resource-card h3{ margin:0 0 6px; font-size:1.05rem; }
+  .resource-card .date{ font-family:var(--mono); font-size:.72rem; color:var(--ink-soft); }
+  .resource-card p{ margin:8px 0 0; font-size:.92rem; }
+  .resource-card .links{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; }
+</style>
+</head>
+<body data-page="members">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="page-hero ambient">
+    <div class="page-hero-ambient-bg" aria-hidden="true"><span class="blob-1"></span><span class="blob-2"></span></div>
+    <div class="wrap">
+      <p class="eyebrow">회원 전용</p>
+      <h1>회원 자료실</h1>
+      <p class="lede">한국문화기획학교 회원만 열람 가능한 자료·영상입니다. 로그인 후 이용해 주세요.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="member-topbar" id="memberTopbar" style="display:none;">
+        <span id="memberEmail"></span>
+        <a href="#" class="btn" id="logoutBtn">로그아웃</a>
+      </div>
+
+      <div id="gate" class="member-gate">
+        <p>회원 전용 자료입니다. 로그인 또는 회원가입 후 이용해 주세요.</p>
+        <a href="#" class="btn primary" id="loginBtn">로그인 / 회원가입</a>
+      </div>
+
+      <div id="resourceList" style="display:none; max-width:760px;"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const gate = document.getElementById('gate');
+  const list = document.getElementById('resourceList');
+  const topbar = document.getElementById('memberTopbar');
+  const emailEl = document.getElementById('memberEmail');
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  loginBtn.addEventListener('click', (e) => { e.preventDefault(); window.netlifyIdentity && window.netlifyIdentity.open(); });
+  logoutBtn.addEventListener('click', (e) => { e.preventDefault(); window.netlifyIdentity && window.netlifyIdentity.logout(); });
+
+  async function renderResources(){
+    const data = await loadJSON('/content/data/member-resources.json');
+    if(!data || !data.items || !data.items.length){
+      list.innerHTML = `<div class="empty-note">아직 등록된 회원 자료가 없습니다. 관리자 페이지(/admin → 회원 전용 자료)에서 추가해 주세요.</div>`;
+      return;
+    }
+    const sorted = [...data.items].sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    list.innerHTML = sorted.map(r => `
+      <div class="resource-card">
+        <span class="date">${escapeHTML(r.date||'')}</span>
+        <h3>${escapeHTML(r.title||'')}</h3>
+        ${r.description ? `<p>${escapeHTML(r.description)}</p>` : ''}
+        <div class="links">
+          ${r.fileUrl ? `<a class="btn" href="${encodeURI(r.fileUrl)}" target="_blank" rel="noopener">첨부 파일 보기</a>` : ''}
+          ${r.videoUrl ? `<a class="btn" href="${encodeURI(r.videoUrl)}" target="_blank" rel="noopener">영상 보기</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function showLoggedIn(user){
+    gate.style.display = 'none';
+    list.style.display = 'block';
+    topbar.style.display = 'flex';
+    emailEl.textContent = user.email || '';
+    renderResources();
+  }
+  function showLoggedOut(){
+    gate.style.display = 'block';
+    list.style.display = 'none';
+    topbar.style.display = 'none';
+  }
+
+  if(window.netlifyIdentity){
+    window.netlifyIdentity.on('init', user => { user ? showLoggedIn(user) : showLoggedOut(); });
+    window.netlifyIdentity.on('login', user => { showLoggedIn(user); window.netlifyIdentity.close(); });
+    window.netlifyIdentity.on('logout', () => { showLoggedOut(); });
+    window.netlifyIdentity.init();
+  } else {
+    showLoggedOut();
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "name": "한국축제지원센터",
+      "tagline": "축제 컨설팅 자매 브랜드",
+      "description": "한국문화기획학교의 축제 컨설팅 노하우를 이어가는 자매 브랜드입니다. 원포인트 축제 컨설팅, 축제감독 양성과정 '내일의 축제감독', 축제 재원조성 컨설팅을 전문으로 운영합니다.",
+      "url": "https://kfsc-website.vercel.app/"
+    },
+    {
+      "name": "쥬스컴퍼니",
+      "tagline": "콘텐츠·브랜딩 파트너",
+      "description": "문화 콘텐츠 기획과 브랜딩을 함께하는 관련 기관입니다.",
+      "url": "https://comefunny.com/"
+    },
+    {
+      "name": "체부홀",
+      "tagline": "서울생활문화센터 체부",
+      "description": "한국문화기획학교가 운영에 함께하고 있는 문화공간입니다.",
+      "url": "https://ccasc.or.kr/"
+    }
+  ]
+}
