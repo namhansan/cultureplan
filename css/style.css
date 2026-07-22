@@ -81,7 +81,13 @@ p{ margin:0 0 1em; }
 }
 .brand{ display:flex; align-items:center; gap:12px; }
 .brand-logo{ height:68px; width:auto; display:block; }
-.f-col-brand .brand-logo{ height:58px; }
+.brand-mark{ width:36px; height:36px; flex:none; }
+.brand-mark .bars rect{ fill:var(--ink); }
+.brand-text{ display:flex; flex-direction:column; line-height:1.15; }
+.brand-text .kr{ font-family:var(--display); font-weight:700; font-size:1.05rem; color:var(--ink); }
+.brand-text .en{ font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
+.f-col-brand .brand-mark{ width:44px; height:44px; }
+.f-col-brand .brand-text .kr{ font-size:1.2rem; }
 
 .nav{ display:flex; align-items:center; gap:2px; }
 .nav > a{
