@@ -108,7 +108,9 @@ p{ margin:0 0 1em; }
 }
 .nav-toplink:hover{ background:var(--paper-deep); color:var(--ink); }
 .nav-toplink .chev{ width:9px; height:7px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; transition:transform .15s; }
-.nav-item.open .nav-toplink, .nav-item.nav-active .nav-toplink{ color:var(--white); background:var(--ink); }
+.nav-item.open .nav-toplink{ background:var(--paper-deep); color:var(--ink); }
+.nav-item.nav-active .nav-toplink{ color:var(--white); background:var(--ink); }
+.nav-item.open.nav-active .nav-toplink{ color:var(--white); background:var(--ink); }
 .nav-item.open .chev{ transform:rotate(180deg); }
 
 .dropdown{
