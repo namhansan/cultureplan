@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   host.innerHTML = data.items.map(p => `
     <div class="partner-card">
       <div>
-        <p class="eyebrow" style="color:var(--stamp);">${escapeHTML(p.tagline || '관련기관')}</p>
+        <p class="eyebrow">${escapeHTML(p.tagline || '관련기관')}</p>
         <h3>${escapeHTML(p.name || '')}</h3>
         <p>${escapeHTML(p.description || '')}</p>
       </div>
