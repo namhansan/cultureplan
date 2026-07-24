@@ -137,6 +137,18 @@ collections:
                 widget: "image"
                 required: false
 
+  - name: "members-config"
+    label: "회원 전용 접속 코드"
+    files:
+      - file: "content/data/members-config.json"
+        label: "접속 코드 설정"
+        name: "config"
+        fields:
+          - label: "접속 코드"
+            name: "passcode"
+            widget: "string"
+            hint: "회원 전용 페이지(/members.html)에 들어올 때 회원들이 입력할 공용 비밀번호입니다. 여기서 바꾸면 바로 반영돼요."
+
   - name: "member-resources"
     label: "회원 전용 자료"
     files:
