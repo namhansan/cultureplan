@@ -50,7 +50,7 @@
       </div>
 
       <div id="resourceWrap" style="display:none; max-width:760px; margin:0 auto;">
-        <div class="member-topbar"><a href="#" class="btn" id="lockBtn">잠그기</a></div>
+        <div class="member-topbar"><a href="#" class="btn" id="lockBtn">나가기</a></div>
         <div id="resourceList"></div>
       </div>
     </div>
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = await loadJSON('/content/data/member-resources.json');
     const list = document.getElementById('resourceList');
     if(!data || !data.items || !data.items.length){
-      list.innerHTML = `<div class="empty-note">아직 등록된 회원 자료가 없습니다. 관리자 페이지(/admin → 회원 전용 자료)에서 추가해 주세요.</div>`;
+      list.innerHTML = `<div class="empty-note">아직 등록된 자료가 없습니다. 새 자료가 올라오면 이곳에 표시됩니다.</div>`;
       return;
     }
     const sorted = [...data.items].sort((a,b) => (b.date||'').localeCompare(a.date||''));
