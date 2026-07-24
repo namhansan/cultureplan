@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회원가입 신청 — 한국문화기획학교</title>
+<meta name="description" content="한국문화기획학교 회원 전용 자료실 이용을 위한 회원가입 신청 페이지입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="members">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="page-hero ambient">
+    <div class="page-hero-ambient-bg" aria-hidden="true"><span class="blob-1"></span><span class="blob-2"></span></div>
+    <div class="wrap">
+      <p class="eyebrow">회원 전용</p>
+      <h1>회원가입 신청</h1>
+      <p class="lede">회원 전용 자료실 이용을 원하시면 아래 내용을 남겨주세요. 확인 후 사무국에서 접속 코드를 안내해 드립니다.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="notice-box">신청 내용 확인 후, 기재해주신 연락처 또는 이메일로 접속 코드를 안내해 드려요. 보통 영업일 기준 1~2일 내로 안내드립니다.</div>
+
+      <form class="form-card" name="member-apply" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/inquiry-success.html">
+        <input type="hidden" name="form-name" value="member-apply">
+        <p style="display:none;">
+          <label>이 필드는 비워두세요: <input name="bot-field"></label>
+        </p>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="name">이름</label>
+            <input id="name" name="name" type="text" required>
+          </div>
+          <div class="field">
+            <label for="email">이메일</label>
+            <input id="email" name="email" type="email" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="phone">연락처</label>
+            <input id="phone" name="phone" type="tel" required>
+          </div>
+          <div class="field">
+            <label for="affiliation">소속 · 활동 분야</label>
+            <input id="affiliation" name="affiliation" type="text" placeholder="예: OO문화재단, 프리랜서 축제감독 등">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="message">신청 사유 · 하고 싶은 말</label>
+          <textarea id="message" name="message" rows="5" placeholder="한국문화기획학교와의 인연, 회원 신청 사유 등을 자유롭게 적어주세요." required></textarea>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>회원 확인 및 접속 코드 안내를 위해 위 정보를 수집·이용하는 것에 동의합니다.</span>
+        </label>
+
+        <div class="cta-row" style="margin-top:22px;">
+          <button class="btn primary" type="submit">회원가입 신청하기</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/js/main.js"></script>
+</body>
+</html>
