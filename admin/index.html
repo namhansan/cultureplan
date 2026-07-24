@@ -17,6 +17,12 @@
       <a href="#" id="logoutLink" style="color:#B23A33; font-size:.9rem;">로그아웃</a>
     </div>
   </div>
+
+  <div id="whoami" style="display:none; position:fixed; left:12px; bottom:12px; z-index:9999; background:#16233F; color:#fff; font-family:sans-serif; font-size:12.5px; padding:8px 12px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.25); align-items:center; gap:10px;">
+    <span>로그인: <strong id="whoamiEmail"></strong></span>
+    <a href="#" id="whoamiLogout" style="color:#F0997B; text-decoration:none;">로그아웃</a>
+  </div>
+
   <script>
     function hasAdminRole(user){
       var roles = (user && user.app_metadata && user.app_metadata.roles) || [];
@@ -29,6 +35,15 @@
         } else if (!hasAdminRole(user)) {
           document.getElementById('blocked').style.display = 'block';
           document.getElementById('logoutLink').addEventListener('click', function(e){
+            e.preventDefault();
+            window.netlifyIdentity.logout();
+            window.location.href = '/';
+          });
+        } else {
+          var badge = document.getElementById('whoami');
+          document.getElementById('whoamiEmail').textContent = user.email || '';
+          badge.style.display = 'flex';
+          document.getElementById('whoamiLogout').addEventListener('click', function(e){
             e.preventDefault();
             window.netlifyIdentity.logout();
             window.location.href = '/';
