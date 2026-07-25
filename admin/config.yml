@@ -28,19 +28,16 @@ collections:
               - label: "제목"
                 name: "title"
                 widget: "string"
-              - label: "분류"
+              - label: "분류 (카테고리 — 새 카테고리는 그냥 새로운 이름을 입력하면 자동으로 생깁니다)"
                 name: "category"
-                widget: "select"
-                options:
-                  - label: "교육·양성과정"
-                    value: "education"
-                  - label: "축제 컨설팅"
-                    value: "festival"
-                  - label: "상설 공간 운영"
-                    value: "space"
-                  - label: "자체 기획·네트워크"
-                    value: "network"
-                default: "network"
+                widget: "string"
+                hint: "예: 교육 프로그램, 문화 프로젝트. 지금 없는 이름을 입력하면 프로그램 페이지에 새 그룹으로 자동 생성됩니다."
+                default: "문화 프로젝트"
+              - label: "하위 태그 (선택, 카드에 작게 표시됨)"
+                name: "tag"
+                widget: "string"
+                required: false
+                hint: "예: 컨설팅 / 축제기획 / 공간운영 / 내일의 축제학교"
               - label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)"
                 name: "status"
                 widget: "string"
@@ -107,35 +104,67 @@ collections:
                 required: false
                 hint: "예: 국세청 홈택스 바로가기"
 
-  - name: "partners"
-    label: "관련기관"
+  - name: "network"
+    label: "네트워크"
     files:
-      - file: "content/data/partners.json"
-        label: "관련기관 목록"
-        name: "partners"
+      - file: "content/data/network.json"
+        label: "네트워크 (운영시설·기관 / 협력문화기업)"
+        name: "network"
         fields:
-          - label: "관련기관 목록"
+          - label: "운영시설 및 기관"
+            name: "facility"
+            widget: "list"
+            summary: "{{name}}"
+            fields:
+              - { label: "기관명", name: "name", widget: "string" }
+              - { label: "짧은 소개 (한 줄)", name: "tagline", widget: "string", required: false }
+              - { label: "설명", name: "description", widget: "text" }
+              - { label: "웹사이트 주소", name: "url", widget: "string", required: false }
+          - label: "협력문화기업"
+            name: "company"
+            widget: "list"
+            summary: "{{name}}"
+            fields:
+              - { label: "기업명", name: "name", widget: "string" }
+              - { label: "짧은 소개 (한 줄)", name: "tagline", widget: "string", required: false }
+              - { label: "설명", name: "description", widget: "text" }
+              - { label: "웹사이트 주소", name: "url", widget: "string", required: false }
+
+  - name: "community"
+    label: "커뮤니티"
+    files:
+      - file: "content/data/community.json"
+        label: "커뮤니티 목록"
+        name: "community"
+        fields:
+          - label: "커뮤니티 목록 (새 항목 추가 가능)"
             name: "items"
             widget: "list"
             summary: "{{name}}"
             fields:
-              - label: "기관명"
-                name: "name"
-                widget: "string"
-              - label: "짧은 소개 (한 줄)"
-                name: "tagline"
-                widget: "string"
-                required: false
-              - label: "설명"
-                name: "description"
-                widget: "text"
-              - label: "웹사이트 주소"
-                name: "url"
-                widget: "string"
-              - label: "로고 이미지 (선택)"
-                name: "logo"
-                widget: "image"
-                required: false
+              - { label: "이름", name: "name", widget: "string" }
+              - { label: "배지 문구 (예: 격월 운영, 2014~2025 · 12년 연속)", name: "badge", widget: "string", required: false }
+              - { label: "짧은 소개", name: "tagline", widget: "string", required: false }
+              - { label: "설명", name: "description", widget: "text" }
+              - { label: "살롱, 낯선 아카이브로 연결할지 여부", name: "hasArchive", widget: "boolean", default: false, hint: "켜두면 카드에 '아카이브 전체 보기' 링크가 붙습니다." }
+
+  - name: "salon-archive"
+    label: "살롱, 낯선 아카이브"
+    files:
+      - file: "content/data/salon-archive.json"
+        label: "살롱, 낯선 회차 목록"
+        name: "archive"
+        fields:
+          - label: "회차 목록 (새 회차가 열리면 여기에 추가하세요)"
+            name: "items"
+            widget: "list"
+            summary: "{{date}} — {{title}}"
+            fields:
+              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "제목/주제", name: "title", widget: "string" }
+              - { label: "설명", name: "desc", widget: "text", required: false }
+              - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
+              - { label: "장소", name: "location", widget: "string", required: false }
 
   - name: "members-config"
     label: "회원 전용 접속 코드"

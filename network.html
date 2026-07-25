@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>네트워크 — 한국문화기획학교</title>
+<meta name="description" content="한국문화기획학교의 운영시설·기관과 협력문화기업 네트워크를 소개합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="network">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="page-hero ambient">
+    <div class="page-hero-ambient-bg" aria-hidden="true"><span class="blob-1"></span><span class="blob-2"></span></div>
+    <div class="wrap">
+      <p class="eyebrow">네트워크</p>
+      <h1>함께 연결된 기관과 기업</h1>
+      <p class="lede">한국문화기획학교가 직접 운영하는 시설·기관과, 함께 문화기획 생태계를 만들어가는 협력문화기업 네트워크입니다.</p>
+    </div>
+  </section>
+
+  <section class="section" id="facility">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:24px;">
+        <p class="eyebrow">운영시설 및 기관</p>
+        <h2>학교가 직접 운영하는 곳</h2>
+      </div>
+      <div id="facilityList" style="display:flex; flex-direction:column; gap:20px;">
+        <p>불러오는 중입니다…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="company">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:24px;">
+        <p class="eyebrow">협력문화기업</p>
+        <h2>함께 네트워킹하는 기업</h2>
+      </div>
+      <div id="companyList" class="card-grid">
+        <p>불러오는 중입니다…</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await loadJSON('/content/data/network.json');
+  const facilityHost = document.getElementById('facilityList');
+  const companyHost = document.getElementById('companyList');
+
+  const facility = (data && data.facility) || [];
+  const company = (data && data.company) || [];
+
+  facilityHost.innerHTML = facility.length ? facility.map(p => `
+    <div class="partner-card">
+      <div>
+        <p class="eyebrow">${escapeHTML(p.tagline || '운영시설 및 기관')}</p>
+        <h3>${escapeHTML(p.name || '')}</h3>
+        <p>${escapeHTML(p.description || '')}</p>
+      </div>
+      ${p.url ? `<a class="btn" href="${encodeURI(p.url)}" target="_blank" rel="noopener">${escapeHTML(p.url.replace(/^https?:\/\//,''))} 방문 →</a>` : ''}
+    </div>
+  `).join('') : `<div class="empty-note">등록된 운영시설·기관이 없습니다.</div>`;
+
+  companyHost.innerHTML = company.length ? company.map(c => `
+    <div class="ticket" style="cursor:default;">
+      <div class="ticket-body">
+        <span class="cat-chip" style="color:#1F5C43; border-color:#1F5C43;">협력문화기업</span>
+        <h3>${escapeHTML(c.name || '')}</h3>
+        <p>${escapeHTML(c.description || '')}</p>
+        ${c.url ? `<div class="meta"><a href="${encodeURI(c.url)}" target="_blank" rel="noopener" style="color:var(--ink); font-weight:600;">방문하기 ↗</a></div>` : ''}
+      </div>
+    </div>
+  `).join('') : `<div class="empty-note">등록된 협력문화기업이 없습니다.</div>`;
+});
+</script>
+</body>
+</html>

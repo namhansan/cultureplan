@@ -76,9 +76,9 @@ function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CU
       </text>
       <g class="bars" transform="translate(50 50) scale(0.9) translate(-20 -20)">
         <rect x="2"  y="22" width="5" height="16" rx="1" transform="rotate(0 4.5 38)"/>
-        <rect x="10" y="14" width="5" height="24" rx="1" transform="rotate(-12 12.5 38)"/>
-        <rect x="18" y="4"  width="5" height="34" rx="1" transform="rotate(-30 20.5 38)"/>
-        <rect x="27" y="6"  width="5" height="32" rx="1" transform="rotate(-14 29.5 38)"/>
+        <rect x="10" y="14" width="5" height="24" rx="1" transform="rotate(12 12.5 38)"/>
+        <rect x="18" y="4"  width="5" height="34" rx="1" transform="rotate(30 20.5 38)"/>
+        <rect x="27" y="6"  width="5" height="32" rx="1" transform="rotate(14 29.5 38)"/>
         <rect x="35" y="0"  width="5" height="38" rx="1" transform="rotate(0 37.5 38)"/>
       </g>
     </svg>
@@ -117,15 +117,16 @@ function escapeHTML(s=''){
   return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ---- program category metadata (shared across cards, grouped list, detail hero) ----
-const PROGRAM_CATEGORIES = {
-  education: { label: '교육·양성과정', color: '#16233F' },
-  festival:  { label: '축제 컨설팅',   color: '#B23A33' },
-  space:     { label: '상설 공간 운영', color: '#1F5C43' },
-  network:   { label: '자체 기획·네트워크', color: '#7A5C2E' }
-};
+// ---- program category metadata (now free-text: any category string works, color assigned by hash) ----
+const CATEGORY_COLOR_PALETTE = ['#16233F', '#B23A33', '#1F5C43', '#7A5C2E', '#4A3B7A', '#2E6B7A'];
+function hashColor(str){
+  let h = 0;
+  for(let i=0; i<str.length; i++){ h = (h * 31 + str.charCodeAt(i)) >>> 0; }
+  return CATEGORY_COLOR_PALETTE[h % CATEGORY_COLOR_PALETTE.length];
+}
 function categoryMeta(key){
-  return PROGRAM_CATEGORIES[key] || { label: '프로그램', color: '#16233F' };
+  if(!key) return { label: '프로그램', color: '#16233F' };
+  return { label: key, color: hashColor(key) };
 }
 
 // ---- shared program card renderer (handles internal detail pages + external links, e.g. 한국축제지원센터) ----
@@ -137,12 +138,12 @@ function renderProgramCard(p){
   const cat = categoryMeta(p.category);
   const media = p.image
     ? `<div class="ticket-media" style="background-image:url('${encodeURI(p.image)}');"></div>`
-    : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${cat.color}, ${cat.color}cc);"><span>${escapeHTML(cat.label)}</span></div>`;
+    : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${cat.color}, ${cat.color}cc);"><span>${escapeHTML(p.tag || cat.label)}</span></div>`;
   return `
     <a class="ticket" href="${href}" ${attrs}>
       ${media}
       <div class="ticket-body">
-        <span class="cat-chip" style="color:${cat.color}; border-color:${cat.color};">${escapeHTML(cat.label)}</span>
+        <span class="cat-chip" style="color:${cat.color}; border-color:${cat.color};">${escapeHTML(p.tag || cat.label)}</span>
         <div class="status">${escapeHTML(p.status||'')}</div>
         <h3>${escapeHTML(p.title||'')}</h3>
         <p>${escapeHTML(p.summary||'')}</p>

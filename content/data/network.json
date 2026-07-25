@@ -1,0 +1,66 @@
+{
+  "facility": [
+    {
+      "name": "한국축제지원센터",
+      "tagline": "축제 컨설팅 자매 브랜드",
+      "description": "한국문화기획학교의 축제 컨설팅 노하우를 이어가는 자매 브랜드입니다. 원포인트 축제 컨설팅, 축제감독 양성과정 '내일의 축제감독', 축제 재원조성 컨설팅을 전문으로 운영합니다.",
+      "url": "https://kfsc-website.vercel.app/"
+    },
+    {
+      "name": "체부홀",
+      "tagline": "서울생활문화센터 체부",
+      "description": "한국문화기획학교가 5년째 운영을 위탁받아 운영 중인 문화공간입니다. 살롱 낯선, 살롱 내일을 비롯한 각종 커뮤니티 프로그램이 이곳에서 열립니다.",
+      "url": "https://ccasc.or.kr/"
+    }
+  ],
+  "company": [
+    {
+      "name": "㈜그린임팩트",
+      "tagline": "협력문화기업",
+      "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
+      "url": "https://share.google/3T8e2M3WYrHxi6IZW"
+    },
+    {
+      "name": "고메노마드",
+      "tagline": "협력문화기업",
+      "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
+      "url": ""
+    },
+    {
+      "name": "쥬스컴퍼니",
+      "tagline": "콘텐츠·브랜딩 파트너",
+      "description": "문화 콘텐츠 기획과 브랜딩을 함께하는 협력문화기업입니다.",
+      "url": "https://comefunny.com/"
+    },
+    {
+      "name": "한국축제감독회의",
+      "tagline": "협력문화기업",
+      "description": "축제감독들의 네트워크와 함께하는 협력문화기업입니다.",
+      "url": ""
+    },
+    {
+      "name": "기분좋은 QX",
+      "tagline": "협력문화기업",
+      "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
+      "url": "https://share.google/9O58lvb50Ywl9xZZK"
+    },
+    {
+      "name": "피쉬아이",
+      "tagline": "협력문화기업",
+      "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
+      "url": "https://share.google/JB3MoAk6oGrLUFFxL"
+    },
+    {
+      "name": "문화전파사",
+      "tagline": "협력문화기업",
+      "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
+      "url": "https://youtube.com/@tv-br8wz?si=ioxnrPf3oKHMwS3H"
+    },
+    {
+      "name": "모모365",
+      "tagline": "협력문화기업",
+      "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
+      "url": "https://share.google/sOdFlf4iWPIPgllBv"
+    }
+  ]
+}
