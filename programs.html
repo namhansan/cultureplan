@@ -25,8 +25,11 @@
   </section>
 
   <section class="section">
-    <div class="wrap" id="programGroups">
-      <p>프로그램을 불러오는 중입니다…</p>
+    <div class="wrap">
+      <div id="indexTabs" class="index-tabs"></div>
+      <div id="indexPanel" class="index-panel">
+        <p>프로그램을 불러오는 중입니다…</p>
+      </div>
     </div>
   </section>
 </main>
@@ -34,65 +37,113 @@
 <footer class="site-footer" id="site-footer"></footer>
 <script src="/js/main.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const data = await loadJSON('/content/data/programs.json');
-  const host = document.getElementById('programGroups');
-  if(!data || !data.items || !data.items.length){
-    host.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다.</div>`;
-    return;
-  }
+let PROGRAM_DATA = null;
+let ACTIVE_CATEGORY = null;
+let ACTIVE_SUB = '전체';
+
+function buildCategoryOrder(items){
   const preferredOrder = ['교육 프로그램', '문화 프로젝트'];
-  const groups = {};
-  const order = [];
-  data.items.forEach(p => {
-    const key = p.category || '프로그램';
-    if(!groups[key]){ groups[key] = []; order.push(key); }
-    groups[key].push(p);
-  });
-  order.sort((a,b) => {
+  const seen = [];
+  items.forEach(p => { const k = p.category || '프로그램'; if(!seen.includes(k)) seen.push(k); });
+  seen.sort((a,b) => {
     const ia = preferredOrder.indexOf(a), ib = preferredOrder.indexOf(b);
     if(ia === -1 && ib === -1) return 0;
     if(ia === -1) return 1;
     if(ib === -1) return -1;
     return ia - ib;
   });
-  host.innerHTML = order.map(key => {
+  return seen;
+}
+
+function renderTabs(){
+  const items = PROGRAM_DATA.items;
+  const order = buildCategoryOrder(items);
+  const tabsHost = document.getElementById('indexTabs');
+  tabsHost.innerHTML = order.map(key => {
     const meta = categoryMeta(key);
-    const programsInCat = groups[key];
-
-    // sub-group by tag (소카테고리) within this category, preserving first-seen order
-    const subGroups = {};
-    const subOrder = [];
-    programsInCat.forEach(p => {
-      const subKey = p.tag || '기타';
-      if(!subGroups[subKey]){ subGroups[subKey] = []; subOrder.push(subKey); }
-      subGroups[subKey].push(p);
-    });
-
-    const subHtml = subOrder.map(subKey => `
-      <div class="subcategory-block">
-        <div class="subcategory-head" style="border-color:${meta.color};">
-          <span class="sc-dot" style="background:${meta.color};"></span>
-          <h3>${escapeHTML(subKey)}</h3>
-          <span class="sc-count">${subGroups[subKey].length}</span>
-        </div>
-        <div class="card-grid">${subGroups[subKey].map(renderProgramCard).join('')}</div>
-      </div>
-    `).join('');
-
+    const count = items.filter(p => (p.category||'프로그램') === key).length;
+    const active = key === ACTIVE_CATEGORY;
     return `
-      <div class="program-group" id="${encodeURIComponent(key)}" style="margin-bottom:60px;">
-        <div class="category-banner" style="background:linear-gradient(120deg, ${meta.color}, ${meta.color}cc);">
-          <div>
-            <span class="cb-sub">CATEGORY</span>
-            <h2>${escapeHTML(meta.label)}</h2>
-          </div>
-          <span class="cb-count">${programsInCat.length}개 프로그램</span>
-        </div>
-        ${subHtml}
-      </div>
+      <button type="button" class="index-tab ${active ? 'active' : ''}" data-cat="${escapeHTML(key)}"
+        style="background:${meta.color};">
+        ${escapeHTML(key)} <span class="it-count">${count}</span>
+      </button>
     `;
   }).join('');
+  tabsHost.querySelectorAll('.index-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ACTIVE_CATEGORY = btn.getAttribute('data-cat');
+      ACTIVE_SUB = '전체';
+      renderTabs();
+      renderPanel();
+    });
+  });
+}
+
+function renderPanel(){
+  const items = PROGRAM_DATA.items.filter(p => (p.category||'프로그램') === ACTIVE_CATEGORY);
+  const meta = categoryMeta(ACTIVE_CATEGORY);
+  const panel = document.getElementById('indexPanel');
+
+  const subOrder = [];
+  const subGroups = {};
+  items.forEach(p => {
+    const s = p.tag || '기타';
+    if(!subGroups[s]){ subGroups[s] = []; subOrder.push(s); }
+    subGroups[s].push(p);
+  });
+
+  const subTabsHtml = `
+    <button type="button" class="subtab ${ACTIVE_SUB === '전체' ? 'active' : ''}" data-sub="전체" style="--sub-color:${meta.color};">
+      전체 <span class="count">${items.length}</span>
+    </button>
+  ` + subOrder.map(s => `
+    <button type="button" class="subtab ${ACTIVE_SUB === s ? 'active' : ''}" data-sub="${escapeHTML(s)}" style="--sub-color:${meta.color};">
+      ${escapeHTML(s)} <span class="count">${subGroups[s].length}</span>
+    </button>
+  `).join('');
+
+  const bodyHtml = ACTIVE_SUB === '전체'
+    ? subOrder.map(s => `
+        <div class="subcategory-block">
+          <div class="subcategory-head" style="border-color:${meta.color};">
+            <span class="sc-dot" style="background:${meta.color};"></span>
+            <h3>${escapeHTML(s)}</h3>
+            <span class="sc-count">${subGroups[s].length}</span>
+          </div>
+          <div class="card-grid">${subGroups[s].map(renderProgramCard).join('')}</div>
+        </div>
+      `).join('')
+    : `<div class="card-grid">${(subGroups[ACTIVE_SUB]||[]).map(renderProgramCard).join('')}</div>`;
+
+  panel.style.borderTopColor = meta.color;
+  panel.innerHTML = `
+    <div class="subtab-row">${subTabsHtml}</div>
+    ${bodyHtml}
+  `;
+  panel.querySelectorAll('.subtab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ACTIVE_SUB = btn.getAttribute('data-sub');
+      renderPanel();
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await loadJSON('/content/data/programs.json');
+  const panel = document.getElementById('indexPanel');
+  if(!data || !data.items || !data.items.length){
+    document.getElementById('indexTabs').style.display = 'none';
+    panel.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다.</div>`;
+    return;
+  }
+  PROGRAM_DATA = data;
+  const order = buildCategoryOrder(data.items);
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get('cat');
+  ACTIVE_CATEGORY = (requested && order.includes(requested)) ? requested : order[0];
+  renderTabs();
+  renderPanel();
 });
 </script>
 </body>
