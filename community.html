@@ -10,25 +10,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
-  .community-card{
-    border:1px solid var(--line); border-radius:14px; padding:26px 28px;
-    background:#fff; display:flex; flex-direction:column; gap:8px;
-  }
-  .community-card .badge{
-    display:inline-block; font-family:var(--mono); font-size:.68rem; letter-spacing:.05em;
-    color:var(--forest); border:1px solid var(--forest); border-radius:999px; padding:3px 10px; width:fit-content;
-  }
-  .archive-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-  @media (max-width:760px){ .archive-grid{ grid-template-columns:1fr; } }
-  .archive-card{ border:1px solid var(--line); border-radius:12px; padding:18px 20px; background:#fff; }
-  .archive-card .a-date{ font-family:var(--mono); font-size:.72rem; color:var(--stamp-deep); }
-  .archive-card h3{ font-size:1rem; margin:6px 0 8px; line-height:1.4; }
-  .archive-card summary{ cursor:pointer; font-size:.86rem; color:var(--ink-soft); margin-top:6px; }
-  .archive-card .a-body{ margin-top:10px; font-size:.86rem; color:var(--ink-soft); border-top:1px dashed var(--line-strong); padding-top:10px; }
-  .archive-card .a-body p{ margin:0 0 8px; white-space:pre-line; }
-  .archive-card .a-speaker{ white-space:pre-line; }
-  .archive-card .a-loc{ font-family:var(--mono); font-size:.72rem; margin-top:8px; color:var(--ink-soft); }
-  #archiveSearch{ width:100%; max-width:320px; padding:10px 14px; border:1px solid var(--line-strong); border-radius:8px; font-size:.9rem; margin-bottom:20px; }
+  #communityList{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:900px){ #communityList{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:620px){ #communityList{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body data-page="community">
@@ -47,7 +31,7 @@
 
   <section class="section">
     <div class="wrap">
-      <div id="communityList" style="display:flex; flex-direction:column; gap:18px;">
+      <div id="communityList">
         <p>불러오는 중입니다…</p>
       </div>
     </div>
@@ -58,7 +42,7 @@
       <div class="section-head" style="margin-bottom:20px;">
         <p class="eyebrow">살롱, 낯선 아카이브</p>
         <h2>2014년부터 지금까지, 모든 회차</h2>
-        <p>최신 회차부터 순서대로 보여드립니다. 제목을 눌러 상세 내용을 펼쳐보세요.</p>
+        <p>최신 회차부터 순서대로 보여드립니다. 포스터를 눌러 상세 내용을 펼쳐보세요.</p>
       </div>
       <input type="text" id="archiveSearch" placeholder="주제, 강연자로 검색">
       <div id="archiveGrid" class="archive-grid">
@@ -75,15 +59,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   const communityData = await loadJSON('/content/data/community.json');
   const communityHost = document.getElementById('communityList');
   const items = (communityData && communityData.items) || [];
-  communityHost.innerHTML = items.length ? items.map(c => `
-    <div class="community-card">
-      ${c.badge ? `<span class="badge">${escapeHTML(c.badge)}</span>` : ''}
-      <h3 style="margin:4px 0 0;">${escapeHTML(c.name||'')}</h3>
-      ${c.tagline ? `<p style="font-size:.86rem; color:var(--ink-soft); margin:0;">${escapeHTML(c.tagline)}</p>` : ''}
-      <p style="margin:6px 0 0;">${escapeHTML(c.description||'')}</p>
-      ${c.hasArchive ? `<a href="#salon-archive" style="margin-top:8px; font-weight:600; color:var(--forest);">아카이브 전체 보기 ↓</a>` : ''}
-    </div>
-  `).join('') : `<div class="empty-note">아직 등록된 커뮤니티가 없습니다.</div>`;
+  communityHost.innerHTML = items.length ? items.map(c => {
+    const color = hashColor(c.name || 'community');
+    const media = c.image
+      ? `<div class="ticket-media" style="background-image:url('${encodeURI(c.image)}');"></div>`
+      : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${color}, ${color}cc);"><span>${escapeHTML(c.name||'')}</span></div>`;
+    const inner = `
+      ${media}
+      <div class="ticket-body">
+        <span class="cat-chip" style="color:${color}; border-color:${color};">커뮤니티</span>
+        <div class="status">${escapeHTML(c.badge||'')}</div>
+        <h3>${escapeHTML(c.name||'')}</h3>
+        <p>${escapeHTML(c.description||'')}</p>
+        ${c.hasArchive ? `<div class="meta">아카이브 보기 <span class="arrow">↓</span></div>` : ''}
+      </div>
+    `;
+    return c.hasArchive
+      ? `<a class="ticket" href="#salon-archive">${inner}</a>`
+      : `<div class="ticket">${inner}</div>`;
+  }).join('') : `<div class="empty-note">아직 등록된 커뮤니티가 없습니다.</div>`;
 
   const archiveData = await loadJSON('/content/data/salon-archive.json');
   const archiveHost = document.getElementById('archiveGrid');
@@ -98,10 +92,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     archiveHost.innerHTML = list.map(e => `
       <details class="archive-card">
         <summary>
-          <span class="a-date">${escapeHTML(e.date||'')}</span>
-          <h3 style="display:inline; font-size:.98rem;">${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
+          ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
+          <div class="ac-body">
+            <span class="a-date">${escapeHTML(e.date||'')}</span>
+            <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
+            <span class="a-more">자세히 보기 →</span>
+          </div>
         </summary>
-        <div class="a-body">
+        <div class="ac-body a-expand">
           ${e.desc ? `<p>${escapeHTML(e.desc)}</p>` : ''}
           ${e.speaker ? `<p class="a-speaker">${escapeHTML(e.speaker)}</p>` : ''}
           ${e.location ? `<div class="a-loc">${escapeHTML(e.location)}</div>` : ''}

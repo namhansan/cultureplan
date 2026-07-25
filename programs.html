@@ -60,9 +60,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const meta = categoryMeta(key);
     return `
       <div class="program-group" id="${encodeURIComponent(key)}" style="margin-bottom:52px;">
-        <div class="section-head" style="display:flex; align-items:center; gap:12px; margin-bottom:22px;">
-          <span style="width:10px; height:10px; border-radius:50%; background:${meta.color}; display:inline-block;"></span>
-          <h2 style="margin:0; font-size:1.35rem;">${escapeHTML(meta.label)}</h2>
+        <div class="category-banner" style="background:linear-gradient(120deg, ${meta.color}, ${meta.color}cc);">
+          <div>
+            <span class="cb-sub">CATEGORY</span>
+            <h2>${escapeHTML(meta.label)}</h2>
+          </div>
+          <span class="cb-count">${groups[key].length}개 프로그램</span>
         </div>
         <div class="card-grid">${groups[key].map(renderProgramCard).join('')}</div>
       </div>

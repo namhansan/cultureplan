@@ -290,6 +290,51 @@ p{ margin:0 0 1em; }
 @media (max-width:900px){ .card-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:620px){ .card-grid{ grid-template-columns:1fr; } }
 
+/* Category banner (programs page group header) */
+.category-banner{
+  position:relative; overflow:hidden; border-radius:14px; padding:28px 32px;
+  margin-bottom:26px; color:#fff; display:flex; align-items:center; justify-content:space-between; gap:16px;
+}
+.category-banner h2{ margin:0; font-size:1.5rem; color:#fff; }
+.category-banner .cb-sub{ font-family:var(--mono); font-size:.76rem; letter-spacing:.06em; opacity:.85; margin-top:4px; display:block; }
+.category-banner .cb-count{ font-family:var(--mono); font-size:.78rem; background:rgba(255,255,255,.18); padding:6px 14px; border-radius:999px; white-space:nowrap; }
+
+/* Network company cards — clickable, hover lift + color */
+.company-card{
+  display:block; border-radius:14px; overflow:hidden; border:1px solid var(--line);
+  background:#fff; text-decoration:none; color:inherit; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.company-card:hover{ transform:translateY(-5px); box-shadow:0 16px 30px rgba(22,35,63,.14); border-color:transparent; }
+.company-card .cc-media{
+  height:110px; display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-weight:900; font-size:1.6rem; color:#fff;
+  transition:filter .18s ease;
+}
+.company-card:hover .cc-media{ filter:brightness(1.08) saturate(1.15); }
+.company-card .cc-body{ padding:16px 18px 20px; }
+.company-card .cc-tag{ font-family:var(--mono); font-size:.68rem; color:var(--forest); border:1px solid var(--forest); border-radius:999px; padding:2px 9px; }
+.company-card h3{ font-size:1.02rem; margin:8px 0 6px; }
+.company-card p{ font-size:.86rem; color:var(--ink-soft); margin:0; }
+.company-card .cc-link{ display:block; margin-top:10px; font-size:.82rem; font-weight:600; color:var(--ink); }
+
+/* Salon archive poster cards */
+.archive-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media (max-width:900px){ .archive-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:620px){ .archive-grid{ grid-template-columns:1fr; } }
+.archive-card{ border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+.archive-card .ac-poster{ width:100%; aspect-ratio:16/9; object-fit:cover; display:block; background:var(--paper-deep); }
+.archive-card .ac-body{ padding:14px 16px 16px; }
+.archive-card .a-date{ font-family:var(--mono); font-size:.7rem; color:var(--stamp-deep); }
+.archive-card h3{ font-size:.94rem; margin:6px 0 8px; line-height:1.4; }
+.archive-card summary{ cursor:pointer; list-style:none; }
+.archive-card summary::-webkit-details-marker{ display:none; }
+.archive-card .a-more{ font-size:.78rem; color:var(--forest); font-weight:600; }
+.archive-card .a-expand{ margin-top:10px; font-size:.84rem; color:var(--ink-soft); border-top:1px dashed var(--line-strong); padding-top:10px; }
+.archive-card .a-expand p{ margin:0 0 8px; white-space:pre-line; }
+.archive-card .a-speaker{ white-space:pre-line; }
+.archive-card .a-loc{ font-family:var(--mono); font-size:.7rem; margin-top:8px; color:var(--ink-soft); }
+#archiveSearch{ width:100%; max-width:320px; padding:10px 14px; border:1px solid var(--line-strong); border-radius:8px; font-size:.9rem; margin-bottom:20px; }
+
 .ticket{
   position:relative; background:var(--white); border:1px solid var(--line-strong);
   border-radius:14px; padding:0 0 24px; display:flex; flex-direction:column; gap:0;

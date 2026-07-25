@@ -71,16 +71,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     </div>
   `).join('') : `<div class="empty-note">등록된 운영시설·기관이 없습니다.</div>`;
 
-  companyHost.innerHTML = company.length ? company.map(c => `
-    <div class="ticket" style="cursor:default;">
-      <div class="ticket-body">
-        <span class="cat-chip" style="color:#1F5C43; border-color:#1F5C43;">협력문화기업</span>
+  companyHost.innerHTML = company.length ? company.map(c => {
+    const color = hashColor(c.name || 'company');
+    const media = c.image
+      ? `<div class="cc-media" style="background-image:url('${encodeURI(c.image)}'); background-size:cover; background-position:center;"></div>`
+      : `<div class="cc-media" style="background:linear-gradient(135deg, ${color}, ${color}cc);">${escapeHTML((c.name||'').slice(0,1))}</div>`;
+    const inner = `
+      ${media}
+      <div class="cc-body">
+        <span class="cc-tag">협력문화기업</span>
         <h3>${escapeHTML(c.name || '')}</h3>
         <p>${escapeHTML(c.description || '')}</p>
-        ${c.url ? `<div class="meta"><a href="${encodeURI(c.url)}" target="_blank" rel="noopener" style="color:var(--ink); font-weight:600;">방문하기 ↗</a></div>` : ''}
+        ${c.url ? `<span class="cc-link">방문하기 ↗</span>` : ''}
       </div>
-    </div>
-  `).join('') : `<div class="empty-note">등록된 협력문화기업이 없습니다.</div>`;
+    `;
+    return c.url
+      ? `<a class="company-card" href="${encodeURI(c.url)}" target="_blank" rel="noopener">${inner}</a>`
+      : `<div class="company-card">${inner}</div>`;
+  }).join('') : `<div class="empty-note">등록된 협력문화기업이 없습니다.</div>`;
 });
 </script>
 </body>

@@ -126,6 +126,7 @@ collections:
             summary: "{{name}}"
             fields:
               - { label: "기업명", name: "name", widget: "string" }
+              - { label: "로고/이미지 (선택)", name: "image", widget: "image", required: false }
               - { label: "짧은 소개 (한 줄)", name: "tagline", widget: "string", required: false }
               - { label: "설명", name: "description", widget: "text" }
               - { label: "웹사이트 주소", name: "url", widget: "string", required: false }
@@ -143,6 +144,7 @@ collections:
             summary: "{{name}}"
             fields:
               - { label: "이름", name: "name", widget: "string" }
+              - { label: "대표 이미지 (선택)", name: "image", widget: "image", required: false }
               - { label: "배지 문구 (예: 격월 운영, 2014~2025 · 12년 연속)", name: "badge", widget: "string", required: false }
               - { label: "짧은 소개", name: "tagline", widget: "string", required: false }
               - { label: "설명", name: "description", widget: "text" }
@@ -162,6 +164,7 @@ collections:
             fields:
               - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
               - { label: "제목/주제", name: "title", widget: "string" }
+              - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
               - { label: "설명", name: "desc", widget: "text", required: false }
               - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
               - { label: "장소", name: "location", widget: "string", required: false }
