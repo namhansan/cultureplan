@@ -58,16 +58,38 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   host.innerHTML = order.map(key => {
     const meta = categoryMeta(key);
+    const programsInCat = groups[key];
+
+    // sub-group by tag (소카테고리) within this category, preserving first-seen order
+    const subGroups = {};
+    const subOrder = [];
+    programsInCat.forEach(p => {
+      const subKey = p.tag || '기타';
+      if(!subGroups[subKey]){ subGroups[subKey] = []; subOrder.push(subKey); }
+      subGroups[subKey].push(p);
+    });
+
+    const subHtml = subOrder.map(subKey => `
+      <div class="subcategory-block">
+        <div class="subcategory-head" style="border-color:${meta.color};">
+          <span class="sc-dot" style="background:${meta.color};"></span>
+          <h3>${escapeHTML(subKey)}</h3>
+          <span class="sc-count">${subGroups[subKey].length}</span>
+        </div>
+        <div class="card-grid">${subGroups[subKey].map(renderProgramCard).join('')}</div>
+      </div>
+    `).join('');
+
     return `
-      <div class="program-group" id="${encodeURIComponent(key)}" style="margin-bottom:52px;">
+      <div class="program-group" id="${encodeURIComponent(key)}" style="margin-bottom:60px;">
         <div class="category-banner" style="background:linear-gradient(120deg, ${meta.color}, ${meta.color}cc);">
           <div>
             <span class="cb-sub">CATEGORY</span>
             <h2>${escapeHTML(meta.label)}</h2>
           </div>
-          <span class="cb-count">${groups[key].length}개 프로그램</span>
+          <span class="cb-count">${programsInCat.length}개 프로그램</span>
         </div>
-        <div class="card-grid">${groups[key].map(renderProgramCard).join('')}</div>
+        ${subHtml}
       </div>
     `;
   }).join('');

@@ -33,11 +33,11 @@ collections:
                 widget: "string"
                 hint: "예: 교육 프로그램, 문화 프로젝트. 지금 없는 이름을 입력하면 프로그램 페이지에 새 그룹으로 자동 생성됩니다."
                 default: "문화 프로젝트"
-              - label: "하위 태그 (선택, 카드에 작게 표시됨)"
+              - label: "소카테고리 (같은 이름끼리 프로그램 페이지에서 한 묶음으로 표시됩니다)"
                 name: "tag"
                 widget: "string"
                 required: false
-                hint: "예: 컨설팅 / 축제기획 / 공간운영 / 내일의 축제학교"
+                hint: "예: 내일의 축제학교 / 컨설팅 / 축제기획 / 공간운영. 새 이름을 입력하면 새 소카테고리 묶음이 자동으로 생깁니다."
               - label: "상태 (예: 정기 모집 / 모집 예정 / 상시 운영)"
                 name: "status"
                 widget: "string"
@@ -148,7 +148,16 @@ collections:
               - { label: "배지 문구 (예: 격월 운영, 2014~2025 · 12년 연속)", name: "badge", widget: "string", required: false }
               - { label: "짧은 소개", name: "tagline", widget: "string", required: false }
               - { label: "설명", name: "description", widget: "text" }
-              - { label: "살롱, 낯선 아카이브로 연결할지 여부", name: "hasArchive", widget: "boolean", default: false, hint: "켜두면 카드에 '아카이브 전체 보기' 링크가 붙습니다." }
+              - label: "연결할 아카이브"
+                name: "archiveKey"
+                widget: "select"
+                required: false
+                default: ""
+                options:
+                  - { label: "연결 안 함", value: "" }
+                  - { label: "살롱, 낯선 아카이브", value: "salon-narseon" }
+                  - { label: "살롱, 내일 아카이브", value: "salon-tomorrow" }
+                  - { label: "회원스터디 아카이브", value: "member-study" }
 
   - name: "salon-archive"
     label: "살롱, 낯선 아카이브"
@@ -158,6 +167,44 @@ collections:
         name: "archive"
         fields:
           - label: "회차 목록 (새 회차가 열리면 여기에 추가하세요)"
+            name: "items"
+            widget: "list"
+            summary: "{{date}} — {{title}}"
+            fields:
+              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "제목/주제", name: "title", widget: "string" }
+              - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
+              - { label: "설명", name: "desc", widget: "text", required: false }
+              - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
+              - { label: "장소", name: "location", widget: "string", required: false }
+
+  - name: "salon-tomorrow-archive"
+    label: "살롱, 내일 아카이브"
+    files:
+      - file: "content/data/archive-salon-tomorrow.json"
+        label: "살롱, 내일 회차 목록"
+        name: "archive"
+        fields:
+          - label: "회차 목록"
+            name: "items"
+            widget: "list"
+            summary: "{{date}} — {{title}}"
+            fields:
+              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "제목/주제", name: "title", widget: "string" }
+              - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
+              - { label: "설명", name: "desc", widget: "text", required: false }
+              - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
+              - { label: "장소", name: "location", widget: "string", required: false }
+
+  - name: "member-study-archive"
+    label: "회원스터디 아카이브"
+    files:
+      - file: "content/data/archive-member-study.json"
+        label: "회원스터디 회차 목록"
+        name: "archive"
+        fields:
+          - label: "회차 목록"
             name: "items"
             widget: "list"
             summary: "{{date}} — {{title}}"

@@ -37,33 +37,54 @@
     </div>
   </section>
 
-  <section class="section alt" id="salon-archive">
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:20px;">
-        <p class="eyebrow">살롱, 낯선 아카이브</p>
-        <h2>2014년부터 지금까지, 모든 회차</h2>
-        <p>최신 회차부터 순서대로 보여드립니다. 포스터를 눌러 상세 내용을 펼쳐보세요.</p>
-      </div>
-      <input type="text" id="archiveSearch" placeholder="주제, 강연자로 검색">
-      <div id="archiveGrid" class="archive-grid">
-        <p>불러오는 중입니다…</p>
-      </div>
-    </div>
-  </section>
+  <div id="archiveSections"></div>
 </main>
 
 <footer class="site-footer" id="site-footer"></footer>
 <script src="/js/main.js"></script>
 <script>
+const ARCHIVE_FILES = {
+  'salon-narseon': { title: '살롱, 낯선 아카이브', file: '/content/data/salon-archive.json' },
+  'salon-tomorrow': { title: '살롱, 내일 아카이브', file: '/content/data/archive-salon-tomorrow.json' },
+  'member-study': { title: '회원스터디 아카이브', file: '/content/data/archive-member-study.json' }
+};
+
+function renderArchiveEntries(host, list){
+  if(!list.length){
+    host.innerHTML = `<div class="empty-note">아직 등록된 회차가 없습니다.</div>`;
+    return;
+  }
+  host.innerHTML = list.map(e => `
+    <details class="archive-card">
+      <summary>
+        ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
+        <div class="ac-body">
+          <span class="a-date">${escapeHTML(e.date||'')}</span>
+          <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
+          <span class="a-more">자세히 보기 →</span>
+        </div>
+      </summary>
+      <div class="ac-body a-expand">
+        ${e.desc ? `<p>${escapeHTML(e.desc)}</p>` : ''}
+        ${e.speaker ? `<p class="a-speaker">${escapeHTML(e.speaker)}</p>` : ''}
+        ${e.location ? `<div class="a-loc">${escapeHTML(e.location)}</div>` : ''}
+      </div>
+    </details>
+  `).join('');
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const communityData = await loadJSON('/content/data/community.json');
   const communityHost = document.getElementById('communityList');
+  const sectionsHost = document.getElementById('archiveSections');
   const items = (communityData && communityData.items) || [];
+
   communityHost.innerHTML = items.length ? items.map(c => {
     const color = hashColor(c.name || 'community');
     const media = c.image
       ? `<div class="ticket-media" style="background-image:url('${encodeURI(c.image)}');"></div>`
       : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${color}, ${color}cc);"><span>${escapeHTML(c.name||'')}</span></div>`;
+    const hasArchive = c.archiveKey && ARCHIVE_FILES[c.archiveKey];
     const inner = `
       ${media}
       <div class="ticket-body">
@@ -71,53 +92,53 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="status">${escapeHTML(c.badge||'')}</div>
         <h3>${escapeHTML(c.name||'')}</h3>
         <p>${escapeHTML(c.description||'')}</p>
-        ${c.hasArchive ? `<div class="meta">아카이브 보기 <span class="arrow">↓</span></div>` : ''}
+        ${hasArchive ? `<div class="meta">아카이브 보기 <span class="arrow">↓</span></div>` : ''}
       </div>
     `;
-    return c.hasArchive
-      ? `<a class="ticket" href="#salon-archive">${inner}</a>`
+    return hasArchive
+      ? `<a class="ticket" href="#archive-${c.archiveKey}">${inner}</a>`
       : `<div class="ticket">${inner}</div>`;
   }).join('') : `<div class="empty-note">아직 등록된 커뮤니티가 없습니다.</div>`;
 
-  const archiveData = await loadJSON('/content/data/salon-archive.json');
-  const archiveHost = document.getElementById('archiveGrid');
-  const searchInput = document.getElementById('archiveSearch');
-  const entries = ((archiveData && archiveData.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
-
-  function renderArchive(list){
-    if(!list.length){
-      archiveHost.innerHTML = `<div class="empty-note">검색 결과가 없습니다.</div>`;
-      return;
-    }
-    archiveHost.innerHTML = list.map(e => `
-      <details class="archive-card">
-        <summary>
-          ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
-          <div class="ac-body">
-            <span class="a-date">${escapeHTML(e.date||'')}</span>
-            <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
-            <span class="a-more">자세히 보기 →</span>
+  // Render one archive section per community item that has an archiveKey, in the same order
+  const withArchive = items.filter(c => c.archiveKey && ARCHIVE_FILES[c.archiveKey]);
+  sectionsHost.innerHTML = withArchive.map((c, i) => {
+    const meta = ARCHIVE_FILES[c.archiveKey];
+    return `
+      <section class="section ${i % 2 === 0 ? 'alt' : ''}" id="archive-${c.archiveKey}">
+        <div class="wrap">
+          <div class="section-head" style="margin-bottom:20px;">
+            <p class="eyebrow">${escapeHTML(c.name)}</p>
+            <h2>${escapeHTML(meta.title)}</h2>
+            <p>최신 회차부터 순서대로 보여드립니다. 포스터를 눌러 상세 내용을 펼쳐보세요.</p>
           </div>
-        </summary>
-        <div class="ac-body a-expand">
-          ${e.desc ? `<p>${escapeHTML(e.desc)}</p>` : ''}
-          ${e.speaker ? `<p class="a-speaker">${escapeHTML(e.speaker)}</p>` : ''}
-          ${e.location ? `<div class="a-loc">${escapeHTML(e.location)}</div>` : ''}
+          <input type="text" class="archive-search-input" data-archive="${c.archiveKey}" placeholder="주제, 강연자로 검색">
+          <div id="archiveGrid-${c.archiveKey}" class="archive-grid">
+            <p>불러오는 중입니다…</p>
+          </div>
         </div>
-      </details>
-    `).join('');
-  }
-  renderArchive(entries);
+      </section>
+    `;
+  }).join('');
 
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
-    if(!q){ renderArchive(entries); return; }
-    renderArchive(entries.filter(e =>
-      (e.title||'').toLowerCase().includes(q) ||
-      (e.speaker||'').toLowerCase().includes(q) ||
-      (e.desc||'').toLowerCase().includes(q)
-    ));
-  });
+  for(const c of withArchive){
+    const meta = ARCHIVE_FILES[c.archiveKey];
+    const data = await loadJSON(meta.file);
+    const grid = document.getElementById(`archiveGrid-${c.archiveKey}`);
+    const entries = ((data && data.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    renderArchiveEntries(grid, entries);
+
+    const searchInput = document.querySelector(`.archive-search-input[data-archive="${c.archiveKey}"]`);
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      if(!q){ renderArchiveEntries(grid, entries); return; }
+      renderArchiveEntries(grid, entries.filter(e =>
+        (e.title||'').toLowerCase().includes(q) ||
+        (e.speaker||'').toLowerCase().includes(q) ||
+        (e.desc||'').toLowerCase().includes(q)
+      ));
+    });
+  }
 });
 </script>
 </body>
