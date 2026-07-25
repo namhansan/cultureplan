@@ -57,7 +57,7 @@ function renderArchiveEntries(host, list){
   host.innerHTML = list.map(e => `
     <details class="archive-card">
       <summary>
-        ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
+        ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy" onclick="openPosterLightbox(event, '${encodeURI(e.poster)}')">` : ''}
         <div class="ac-body">
           <span class="a-date">${escapeHTML(e.date||'')}</span>
           <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
@@ -71,6 +71,22 @@ function renderArchiveEntries(host, list){
       </div>
     </details>
   `).join('');
+}
+
+function openPosterLightbox(event, src){
+  event.preventDefault();
+  event.stopPropagation();
+  let box = document.getElementById('posterLightbox');
+  if(!box){
+    box = document.createElement('div');
+    box.id = 'posterLightbox';
+    box.className = 'poster-lightbox';
+    box.innerHTML = `<img id="posterLightboxImg" src="" alt="">`;
+    box.addEventListener('click', () => { box.classList.remove('open'); });
+    document.body.appendChild(box);
+  }
+  document.getElementById('posterLightboxImg').src = src;
+  box.classList.add('open');
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
