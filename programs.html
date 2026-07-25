@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadJSON('/content/data/programs.json');
   const host = document.getElementById('programGroups');
   if(!data || !data.items || !data.items.length){
-    host.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다. 관리자 페이지(/admin)에서 새 프로그램을 추가해 주세요.</div>`;
+    host.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다.</div>`;
     return;
   }
   const preferredOrder = ['교육 프로그램', '문화 프로젝트'];

@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadJSON('/content/data/news.json');
   const host = document.getElementById('newsList');
   if(!data || !data.items || !data.items.length){
-    host.innerHTML = `<div class="empty-note">아직 등록된 소식이 없습니다. 관리자 페이지(/admin)에서 새 소식을 추가해 주세요.</div>`;
+    host.innerHTML = `<div class="empty-note">아직 등록된 소식이 없습니다.</div>`;
     return;
   }
   const sorted = [...data.items].sort((a,b) => (b.date||'').localeCompare(a.date||''));
