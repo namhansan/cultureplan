@@ -24,25 +24,10 @@
     </div>
   </section>
 
-  <section class="section" id="facility">
+  <section class="section">
     <div class="wrap">
-      <div class="section-head" style="margin-bottom:24px;">
-        <p class="eyebrow">운영시설 및 기관</p>
-        <h2>학교가 직접 운영하는 곳</h2>
-      </div>
-      <div id="facilityList" style="display:flex; flex-direction:column; gap:20px;">
-        <p>불러오는 중입니다…</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section alt" id="company">
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:24px;">
-        <p class="eyebrow">협력문화기업</p>
-        <h2>함께 네트워킹하는 기업</h2>
-      </div>
-      <div id="companyList" class="card-grid">
+      <div id="indexTabs" class="index-tabs"></div>
+      <div id="indexPanel" class="index-panel">
         <p>불러오는 중입니다…</p>
       </div>
     </div>
@@ -52,15 +37,15 @@
 <footer class="site-footer" id="site-footer"></footer>
 <script src="/js/main.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const data = await loadJSON('/content/data/network.json');
-  const facilityHost = document.getElementById('facilityList');
-  const companyHost = document.getElementById('companyList');
+const NETWORK_TABS = [
+  { key: 'facility', label: '운영시설 및 기관', color: '#1F5C43' },
+  { key: 'company',  label: '협력문화기업',   color: '#B23A33' }
+];
+let NETWORK_DATA = null;
+let ACTIVE_NET_TAB = 'facility';
 
-  const facility = (data && data.facility) || [];
-  const company = (data && data.company) || [];
-
-  facilityHost.innerHTML = facility.length ? facility.map(p => `
+function renderFacilityList(list){
+  return list.length ? `<div style="display:flex; flex-direction:column; gap:20px;">${list.map(p => `
     <div class="partner-card">
       <div>
         <p class="eyebrow">${escapeHTML(p.tagline || '운영시설 및 기관')}</p>
@@ -69,9 +54,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
       ${p.url ? `<a class="btn" href="${encodeURI(p.url)}" target="_blank" rel="noopener">${escapeHTML(p.url.replace(/^https?:\/\//,''))} 방문 →</a>` : ''}
     </div>
-  `).join('') : `<div class="empty-note">등록된 운영시설·기관이 없습니다.</div>`;
+  `).join('')}</div>` : `<div class="empty-note">등록된 운영시설·기관이 없습니다.</div>`;
+}
 
-  companyHost.innerHTML = company.length ? company.map(c => {
+function renderCompanyList(list){
+  if(!list.length) return `<div class="empty-note">등록된 협력문화기업이 없습니다.</div>`;
+  return `<div class="card-grid">${list.map(c => {
     const color = hashColor(c.name || 'company');
     const media = c.image
       ? `<div class="cc-media" style="background-image:url('${encodeURI(c.image)}'); background-size:cover; background-position:center;"></div>`
@@ -88,7 +76,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     return c.url
       ? `<a class="company-card" href="${encodeURI(c.url)}" target="_blank" rel="noopener">${inner}</a>`
       : `<div class="company-card">${inner}</div>`;
-  }).join('') : `<div class="empty-note">등록된 협력문화기업이 없습니다.</div>`;
+  }).join('')}</div>`;
+}
+
+function renderNetworkTabs(){
+  const host = document.getElementById('indexTabs');
+  host.innerHTML = NETWORK_TABS.map(t => {
+    const count = (NETWORK_DATA[t.key] || []).length;
+    return `
+      <button type="button" class="index-tab ${t.key === ACTIVE_NET_TAB ? 'active' : ''}" data-tab="${t.key}" style="background:${t.color};">
+        ${escapeHTML(t.label)} <span class="it-count">${count}</span>
+      </button>
+    `;
+  }).join('');
+  host.querySelectorAll('.index-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ACTIVE_NET_TAB = btn.getAttribute('data-tab');
+      renderNetworkTabs();
+      renderNetworkPanel();
+    });
+  });
+}
+
+function renderNetworkPanel(){
+  const panel = document.getElementById('indexPanel');
+  const tab = NETWORK_TABS.find(t => t.key === ACTIVE_NET_TAB);
+  panel.style.borderTopColor = tab.color;
+  const list = NETWORK_DATA[ACTIVE_NET_TAB] || [];
+  panel.innerHTML = ACTIVE_NET_TAB === 'facility' ? renderFacilityList(list) : renderCompanyList(list);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const data = await loadJSON('/content/data/network.json');
+  NETWORK_DATA = { facility: (data && data.facility) || [], company: (data && data.company) || [] };
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get('tab');
+  ACTIVE_NET_TAB = (requested && NETWORK_TABS.some(t => t.key === requested)) ? requested : 'facility';
+  renderNetworkTabs();
+  renderNetworkPanel();
 });
 </script>
 </body>
