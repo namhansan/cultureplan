@@ -111,24 +111,20 @@ collections:
     label: "네트워크"
     files:
       - file: "content/data/network.json"
-        label: "네트워크 (운영시설·기관 / 협력문화기업)"
+        label: "네트워크 목록"
         name: "network"
         fields:
-          - label: "운영시설 및 기관"
-            name: "facility"
+          - label: "네트워크 목록"
+            name: "items"
             widget: "list"
-            summary: "{{name}}"
+            summary: "{{category}} — {{name}}"
             fields:
-              - { label: "기관명", name: "name", widget: "string" }
-              - { label: "짧은 소개 (한 줄)", name: "tagline", widget: "string", required: false }
-              - { label: "설명", name: "description", widget: "text" }
-              - { label: "웹사이트 주소", name: "url", widget: "string", required: false }
-          - label: "협력문화기업"
-            name: "company"
-            widget: "list"
-            summary: "{{name}}"
-            fields:
-              - { label: "기업명", name: "name", widget: "string" }
+              - { label: "이름", name: "name", widget: "string" }
+              - label: "분류 (카테고리 — 새 카테고리는 그냥 새로운 이름을 입력하면 자동으로 생깁니다)"
+                name: "category"
+                widget: "string"
+                default: "협력문화기업"
+                hint: "예: 운영시설 및 기관, 협력문화기업. 지금 없는 이름을 입력하면 네트워크 페이지에 새 탭으로 자동 생성됩니다."
               - { label: "로고/이미지 (선택)", name: "image", widget: "image", required: false }
               - { label: "짧은 소개 (한 줄)", name: "tagline", widget: "string", required: false }
               - { label: "설명", name: "description", widget: "text" }

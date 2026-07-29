@@ -37,61 +37,57 @@
 <footer class="site-footer" id="site-footer"></footer>
 <script src="/js/main.js"></script>
 <script>
-const NETWORK_TABS = [
-  { key: 'facility', label: '운영시설 및 기관', color: '#1F5C43' },
-  { key: 'company',  label: '협력문화기업',   color: '#B23A33' }
-];
-let NETWORK_DATA = null;
-let ACTIVE_NET_TAB = 'facility';
+let NETWORK_ITEMS = [];
+let ACTIVE_NET_CAT = null;
 
-function renderFacilityList(list){
-  return list.length ? `<div style="display:flex; flex-direction:column; gap:20px;">${list.map(p => `
-    <div class="partner-card">
-      <div>
-        <p class="eyebrow">${escapeHTML(p.tagline || '운영시설 및 기관')}</p>
-        <h3>${escapeHTML(p.name || '')}</h3>
-        <p>${escapeHTML(p.description || '')}</p>
-      </div>
-      ${p.url ? `<a class="btn" href="${encodeURI(p.url)}" target="_blank" rel="noopener">${escapeHTML(p.url.replace(/^https?:\/\//,''))} 방문 →</a>` : ''}
-    </div>
-  `).join('')}</div>` : `<div class="empty-note">등록된 운영시설·기관이 없습니다.</div>`;
+function buildNetworkCategoryOrder(items){
+  const preferredOrder = ['운영시설 및 기관', '협력문화기업'];
+  const seen = [];
+  items.forEach(p => { const k = p.category || '네트워크'; if(!seen.includes(k)) seen.push(k); });
+  seen.sort((a,b) => {
+    const ia = preferredOrder.indexOf(a), ib = preferredOrder.indexOf(b);
+    if(ia === -1 && ib === -1) return 0;
+    if(ia === -1) return 1;
+    if(ib === -1) return -1;
+    return ia - ib;
+  });
+  return seen;
 }
 
-function renderCompanyList(list){
-  if(!list.length) return `<div class="empty-note">등록된 협력문화기업이 없습니다.</div>`;
-  return `<div class="card-grid">${list.map(c => {
-    const color = hashColor(c.name || 'company');
-    const media = c.image
-      ? `<div class="cc-media" style="background-image:url('${encodeURI(c.image)}'); background-size:cover; background-position:center;"></div>`
-      : `<div class="cc-media" style="background:linear-gradient(135deg, ${color}, ${color}cc);">${escapeHTML((c.name||'').slice(0,1))}</div>`;
-    const inner = `
-      ${media}
-      <div class="cc-body">
-        <span class="cc-tag">협력문화기업</span>
-        <h3>${escapeHTML(c.name || '')}</h3>
-        <p>${escapeHTML(c.description || '')}</p>
-        ${c.url ? `<span class="cc-link">방문하기 ↗</span>` : ''}
-      </div>
-    `;
-    return c.url
-      ? `<a class="company-card" href="${encodeURI(c.url)}" target="_blank" rel="noopener">${inner}</a>`
-      : `<div class="company-card">${inner}</div>`;
-  }).join('')}</div>`;
+function renderNetworkCard(p){
+  const color = hashColor(p.category || 'network');
+  const media = p.image
+    ? `<div class="cc-media" style="background-image:url('${encodeURI(p.image)}'); background-size:cover; background-position:center;"></div>`
+    : `<div class="cc-media" style="background:linear-gradient(135deg, ${color}, ${color}cc);">${escapeHTML((p.name||'').slice(0,1))}</div>`;
+  const inner = `
+    ${media}
+    <div class="cc-body">
+      <span class="cc-tag" style="color:${color}; border-color:${color};">${escapeHTML(p.tagline || p.category || '')}</span>
+      <h3>${escapeHTML(p.name || '')}</h3>
+      <p>${escapeHTML(p.description || '')}</p>
+      ${p.url ? `<span class="cc-link">방문하기 ↗</span>` : ''}
+    </div>
+  `;
+  return p.url
+    ? `<a class="company-card" href="${encodeURI(p.url)}" target="_blank" rel="noopener">${inner}</a>`
+    : `<div class="company-card">${inner}</div>`;
 }
 
 function renderNetworkTabs(){
+  const order = buildNetworkCategoryOrder(NETWORK_ITEMS);
   const host = document.getElementById('indexTabs');
-  host.innerHTML = NETWORK_TABS.map(t => {
-    const count = (NETWORK_DATA[t.key] || []).length;
+  host.innerHTML = order.map(key => {
+    const meta = categoryMeta(key);
+    const count = NETWORK_ITEMS.filter(p => (p.category||'네트워크') === key).length;
     return `
-      <button type="button" class="index-tab ${t.key === ACTIVE_NET_TAB ? 'active' : ''}" data-tab="${t.key}" style="background:${t.color};">
-        ${escapeHTML(t.label)} <span class="it-count">${count}</span>
+      <button type="button" class="index-tab ${key === ACTIVE_NET_CAT ? 'active' : ''}" data-cat="${escapeHTML(key)}" style="background:${meta.color};">
+        ${escapeHTML(key)} <span class="it-count">${count}</span>
       </button>
     `;
   }).join('');
   host.querySelectorAll('.index-tab').forEach(btn => {
     btn.addEventListener('click', () => {
-      ACTIVE_NET_TAB = btn.getAttribute('data-tab');
+      ACTIVE_NET_CAT = btn.getAttribute('data-cat');
       renderNetworkTabs();
       renderNetworkPanel();
     });
@@ -100,18 +96,27 @@ function renderNetworkTabs(){
 
 function renderNetworkPanel(){
   const panel = document.getElementById('indexPanel');
-  const tab = NETWORK_TABS.find(t => t.key === ACTIVE_NET_TAB);
-  panel.style.borderTopColor = tab.color;
-  const list = NETWORK_DATA[ACTIVE_NET_TAB] || [];
-  panel.innerHTML = ACTIVE_NET_TAB === 'facility' ? renderFacilityList(list) : renderCompanyList(list);
+  const meta = categoryMeta(ACTIVE_NET_CAT);
+  panel.style.borderTopColor = meta.color;
+  const list = NETWORK_ITEMS.filter(p => (p.category||'네트워크') === ACTIVE_NET_CAT);
+  panel.innerHTML = list.length
+    ? `<div class="card-grid">${list.map(renderNetworkCard).join('')}</div>`
+    : `<div class="empty-note">등록된 항목이 없습니다.</div>`;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadJSON('/content/data/network.json');
-  NETWORK_DATA = { facility: (data && data.facility) || [], company: (data && data.company) || [] };
+  const panel = document.getElementById('indexPanel');
+  NETWORK_ITEMS = (data && data.items) || [];
+  if(!NETWORK_ITEMS.length){
+    document.getElementById('indexTabs').style.display = 'none';
+    panel.innerHTML = `<div class="empty-note">아직 등록된 네트워크가 없습니다.</div>`;
+    return;
+  }
+  const order = buildNetworkCategoryOrder(NETWORK_ITEMS);
   const params = new URLSearchParams(window.location.search);
   const requested = params.get('tab');
-  ACTIVE_NET_TAB = (requested && NETWORK_TABS.some(t => t.key === requested)) ? requested : 'facility';
+  ACTIVE_NET_CAT = (requested && order.includes(requested)) ? requested : order[0];
   renderNetworkTabs();
   renderNetworkPanel();
 });
