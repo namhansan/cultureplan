@@ -4,6 +4,7 @@
       "name": "살롱, 낯선",
       "image": "/images/uploads/salon-posters/salon-poster-01.jpg",
       "badge": "2014~2025 · 12년 연속",
+      "autoYearBadge": true,
       "tagline": "한국문화기획학교의 대표 자체 기획 사업",
       "description": "공모·용역과 무관하게 학교가 자력으로 지속해온 대표 브랜드 프로그램. 매 회 새로운 분야의 전문가를 초청해 낯선 관점을 나누는 네트워크 살롱입니다. 2014년부터 지금까지의 모든 회차 기록을 아래 아카이브에서 확인할 수 있습니다.",
       "archiveKey": "salon-narseon"

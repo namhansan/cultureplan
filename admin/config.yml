@@ -148,7 +148,8 @@ collections:
             fields:
               - { label: "이름", name: "name", widget: "string" }
               - { label: "대표 이미지 (선택)", name: "image", widget: "image", required: false }
-              - { label: "배지 문구 (예: 격월 운영, 2014~2025 · 12년 연속)", name: "badge", widget: "string", required: false }
+              - { label: "배지 문구 (예: 격월 운영, 회원 대상)", name: "badge", widget: "string", required: false, hint: "아래 '연도 자동 계산'을 켜면 이 문구 대신 아카이브 연도로 자동 표시됩니다." }
+              - { label: "배지를 아카이브 연도로 자동 계산", name: "autoYearBadge", widget: "boolean", default: false, hint: "켜두면 '2014~2026 · 13년 연속'처럼 아카이브에 등록된 회차의 실제 연도로 매번 자동 계산돼서, 해마다 손으로 안 고쳐도 됩니다." }
               - { label: "짧은 소개", name: "tagline", widget: "string", required: false }
               - { label: "설명", name: "description", widget: "text" }
               - label: "연결할 아카이브"

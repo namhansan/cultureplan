@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const withArchive = items.filter(c => c.archiveKey && ARCHIVE_FILES[c.archiveKey]);
   const archiveEntriesByKey = {};
   const latestPosterByKey = {};
+  const yearBadgeByKey = {};
   for(const c of withArchive){
     const meta = ARCHIVE_FILES[c.archiveKey];
     const data = await loadJSON(meta.file);
@@ -107,6 +108,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     archiveEntriesByKey[c.archiveKey] = entries;
     const latestWithPoster = entries.find(e => e.poster);
     if(latestWithPoster) latestPosterByKey[c.archiveKey] = latestWithPoster.poster;
+
+    const years = entries.map(e => parseInt((e.date||'').slice(0,4), 10)).filter(y => !isNaN(y));
+    if(years.length){
+      const minYear = Math.min(...years), maxYear = Math.max(...years);
+      const span = maxYear - minYear + 1;
+      yearBadgeByKey[c.archiveKey] = minYear === maxYear
+        ? `${minYear} · 진행 중`
+        : `${minYear}~${maxYear} · ${span}년 연속`;
+    }
   }
 
   communityHost.innerHTML = items.length ? items.map(c => {
@@ -114,6 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // For communities linked to an archive, always show the newest poster on
     // file rather than a static image, so the card stays current automatically.
     const displayImage = (c.archiveKey && latestPosterByKey[c.archiveKey]) || c.image;
+    const displayBadge = (c.autoYearBadge && c.archiveKey && yearBadgeByKey[c.archiveKey]) || c.badge;
     const media = displayImage
       ? `<div class="ticket-media" style="background-image:url('${encodeURI(displayImage)}');"></div>`
       : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${color}, ${color}cc);"><span>${escapeHTML(c.name||'')}</span></div>`;
@@ -122,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       ${media}
       <div class="ticket-body">
         <span class="cat-chip" style="color:${color}; border-color:${color};">커뮤니티</span>
-        <div class="status">${escapeHTML(c.badge||'')}</div>
+        <div class="status">${escapeHTML(displayBadge||'')}</div>
         <h3>${escapeHTML(c.name||'')}</h3>
         <p>${escapeHTML(c.description||'')}</p>
         ${hasArchive ? `<div class="meta">아카이브 보기 <span class="arrow">↓</span></div>` : ''}
