@@ -66,7 +66,7 @@
       <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
           <p class="eyebrow">커뮤니티 · 살롱, 낯선</p>
-          <h2>12년째 이어온 낯선 대화</h2>
+          <h2><span id="salonYearsCount">12</span>년째 이어온 낯선 대화</h2>
         </div>
         <a class="btn" href="/community.html#archive-salon-narseon">아카이브 전체 보기</a>
       </div>
@@ -82,6 +82,23 @@
     <div class="wrap">
       <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
+          <p class="eyebrow">프로그램</p>
+          <h2>지금 진행 중인 프로그램</h2>
+        </div>
+        <a class="btn" href="/programs.html">전체 프로그램 보기</a>
+      </div>
+      <div class="carousel">
+        <button class="car-btn" id="progPrev" aria-label="이전 프로그램">‹</button>
+        <div class="carousel-track" id="homePrograms"></div>
+        <button class="car-btn" id="progNext" aria-label="다음 프로그램">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+        <div>
           <p class="eyebrow">사업영역</p>
           <h2>우리가 하는 일</h2>
         </div>
@@ -93,23 +110,6 @@
         <li class="area-card"><span class="idx">05</span><p>문화공간 운영·위탁 — 서울생활문화센터 체부, 5년 연속 운영</p></li>
         <li class="area-card"><span class="idx">06</span><p>미식·식문화 관광자원 활성화 — 구미라면축제 총괄기획</p></li>
       </ul>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="wrap">
-      <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
-        <div>
-          <p class="eyebrow">프로그램</p>
-          <h2>지금 진행 중인 프로그램</h2>
-        </div>
-        <a class="btn" href="/programs.html">전체 프로그램 보기</a>
-      </div>
-      <div class="carousel">
-        <button class="car-btn" id="progPrev" aria-label="이전 프로그램">‹</button>
-        <div class="carousel-track" id="homePrograms"></div>
-        <button class="car-btn" id="progNext" aria-label="다음 프로그램">›</button>
-      </div>
     </div>
   </section>
 
@@ -193,6 +193,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const salonHost = document.getElementById('homeSalon');
   if(salonHost){
     const salonEntries = ((salonData && salonData.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    const salonYears = salonEntries.map(e => parseInt((e.date||'').slice(0,4), 10)).filter(y => !isNaN(y));
+    const salonYearsEl = document.getElementById('salonYearsCount');
+    if(salonYearsEl && salonYears.length){
+      salonYearsEl.textContent = String(Math.max(...salonYears) - Math.min(...salonYears) + 1);
+    }
     salonHost.innerHTML = salonEntries.length ? salonEntries.map(e => `
       <a class="archive-card" href="/community.html#archive-salon-narseon">
         ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
