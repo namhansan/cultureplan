@@ -180,7 +180,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const newsData = await loadJSON('/content/data/news.json');
   const newsHost = document.getElementById('homeNews');
   if(newsData && newsHost){
-    newsHost.innerHTML = newsData.items.slice(0,3).map(n => `
+    const sortedNews = [...(newsData.items||[])].sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    newsHost.innerHTML = sortedNews.slice(0,3).map(n => `
       <div class="news-row">
         <span class="date">${escapeHTML(n.date||'')}</span>
         <h3>${escapeHTML(n.title||'')}</h3>
