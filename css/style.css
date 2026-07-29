@@ -384,6 +384,27 @@ p{ margin:0 0 1em; }
 .archive-card .a-expand p{ margin:0 0 8px; white-space:pre-line; }
 .archive-card .a-speaker{ white-space:pre-line; }
 .archive-card .a-loc{ font-family:var(--mono); font-size:.7rem; margin-top:8px; color:var(--ink-soft); }
+
+/* Horizontal arrow carousel (homepage: programs, 살롱 낯선) */
+.carousel{ display:flex; align-items:center; gap:12px; }
+.carousel-track{
+  display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x proximity; scroll-behavior:smooth;
+  padding:4px 2px 14px; flex:1; scrollbar-width:none;
+}
+.carousel-track::-webkit-scrollbar{ display:none; }
+.carousel-track > *{ flex:0 0 auto; scroll-snap-align:start; }
+.car-btn{
+  flex:none; width:44px; height:44px; border-radius:50%; border:1px solid var(--line-strong);
+  background:#fff; color:var(--ink); font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background .15s ease, color .15s ease, border-color .15s ease; z-index:2;
+}
+.car-btn:hover{ background:var(--ink); color:#fff; border-color:var(--ink); }
+.car-btn:disabled{ opacity:.3; cursor:default; }
+.car-btn:disabled:hover{ background:#fff; color:var(--ink); border-color:var(--line-strong); }
+@media (max-width:640px){ .car-btn{ width:36px; height:36px; font-size:1rem; } }
+
+.carousel-track .ticket{ width:300px; }
+.carousel-track .archive-card{ width:260px; }
 #archiveSearch, .archive-search-input{ width:100%; max-width:320px; padding:10px 14px; border:1px solid var(--line-strong); border-radius:8px; font-size:.9rem; margin-bottom:20px; }
 
 .ticket{
