@@ -81,8 +81,11 @@ collections:
             fields:
               - label: "날짜"
                 name: "date"
-                widget: "date"
+                widget: "datetime"
                 format: "YYYY-MM-DD"
+                date_format: "YYYY-MM-DD"
+                time_format: false
+                picker_utc: true
               - label: "분류 (예: 운영안내 / 모집 / 소식 / 공시)"
                 name: "tag"
                 widget: "string"
@@ -171,7 +174,7 @@ collections:
             widget: "list"
             summary: "{{date}} — {{title}}"
             fields:
-              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
               - { label: "제목/주제", name: "title", widget: "string" }
               - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
               - { label: "설명", name: "desc", widget: "text", required: false }
@@ -190,7 +193,7 @@ collections:
             widget: "list"
             summary: "{{date}} — {{title}}"
             fields:
-              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
               - { label: "제목/주제", name: "title", widget: "string" }
               - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
               - { label: "설명", name: "desc", widget: "text", required: false }
@@ -209,7 +212,7 @@ collections:
             widget: "list"
             summary: "{{date}} — {{title}}"
             fields:
-              - { label: "날짜", name: "date", widget: "date", format: "YYYY-MM-DD" }
+              - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
               - { label: "제목/주제", name: "title", widget: "string" }
               - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
               - { label: "설명", name: "desc", widget: "text", required: false }
@@ -242,8 +245,11 @@ collections:
             fields:
               - label: "날짜"
                 name: "date"
-                widget: "date"
+                widget: "datetime"
                 format: "YYYY-MM-DD"
+                date_format: "YYYY-MM-DD"
+                time_format: false
+                picker_utc: true
               - label: "제목"
                 name: "title"
                 widget: "string"

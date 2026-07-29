@@ -95,10 +95,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   const sectionsHost = document.getElementById('archiveSections');
   const items = (communityData && communityData.items) || [];
 
+  // Pre-load every archive this community list references, and compute the
+  // sorted (newest-first) entries + latest poster image for each archiveKey.
+  const withArchive = items.filter(c => c.archiveKey && ARCHIVE_FILES[c.archiveKey]);
+  const archiveEntriesByKey = {};
+  const latestPosterByKey = {};
+  for(const c of withArchive){
+    const meta = ARCHIVE_FILES[c.archiveKey];
+    const data = await loadJSON(meta.file);
+    const entries = ((data && data.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    archiveEntriesByKey[c.archiveKey] = entries;
+    const latestWithPoster = entries.find(e => e.poster);
+    if(latestWithPoster) latestPosterByKey[c.archiveKey] = latestWithPoster.poster;
+  }
+
   communityHost.innerHTML = items.length ? items.map(c => {
     const color = hashColor(c.name || 'community');
-    const media = c.image
-      ? `<div class="ticket-media" style="background-image:url('${encodeURI(c.image)}');"></div>`
+    // For communities linked to an archive, always show the newest poster on
+    // file rather than a static image, so the card stays current automatically.
+    const displayImage = (c.archiveKey && latestPosterByKey[c.archiveKey]) || c.image;
+    const media = displayImage
+      ? `<div class="ticket-media" style="background-image:url('${encodeURI(displayImage)}');"></div>`
       : `<div class="ticket-media ticket-media-fallback" style="background:linear-gradient(135deg, ${color}, ${color}cc);"><span>${escapeHTML(c.name||'')}</span></div>`;
     const hasArchive = c.archiveKey && ARCHIVE_FILES[c.archiveKey];
     const inner = `
@@ -117,7 +134,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }).join('') : `<div class="empty-note">아직 등록된 커뮤니티가 없습니다.</div>`;
 
   // Render one archive section per community item that has an archiveKey, in the same order
-  const withArchive = items.filter(c => c.archiveKey && ARCHIVE_FILES[c.archiveKey]);
   sectionsHost.innerHTML = withArchive.map((c, i) => {
     const meta = ARCHIVE_FILES[c.archiveKey];
     return `
@@ -138,10 +154,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }).join('');
 
   for(const c of withArchive){
-    const meta = ARCHIVE_FILES[c.archiveKey];
-    const data = await loadJSON(meta.file);
     const grid = document.getElementById(`archiveGrid-${c.archiveKey}`);
-    const entries = ((data && data.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    const entries = archiveEntriesByKey[c.archiveKey];
     renderArchiveEntries(grid, entries);
 
     const searchInput = document.querySelector(`.archive-search-input[data-archive="${c.archiveKey}"]`);
