@@ -57,7 +57,7 @@ async function loadPartials(){
 
 // ---- circular "seal / stamp" SVG generator ----
 // text: string to run around the ring. size: px. centerNum/centerLbl: text in the middle.
-function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CULTURAL STRATEGY · ', size = 320, centerLbl = '', centerNum = ''} = {}){
+function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CULTURAL PLANNING · ', size = 320, centerLbl = '', centerNum = ''} = {}){
   if(!el) return;
   const r = 46;
   const cx = 50, cy = 50;
