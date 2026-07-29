@@ -8,6 +8,31 @@ public_folder: "/images/uploads"
 publish_mode: simple
 
 collections:
+  - name: "business-areas"
+    label: "사업영역"
+    files:
+      - file: "content/data/business-areas.json"
+        label: "사업영역 목록"
+        name: "areas"
+        fields:
+          - label: "사업영역 목록 (순서대로 번호가 매겨집니다. 새 영역 추가 가능)"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - { label: "제목", name: "title", widget: "string" }
+              - { label: "부제 (한 줄 설명)", name: "sub", widget: "string", required: false }
+              - { label: "대표 프로젝트명", name: "flagshipProject", widget: "string", required: false, hint: "예: 성남·진주·관악·강릉 시민문화기획 아카데미" }
+              - { label: "대표 프로젝트 배지 (선택)", name: "flagshipBadge", widget: "string", required: false, hint: "예: 외 약 30건, 2021~2025 · 5년 연속" }
+              - label: "세부 사업/실적 목록"
+                name: "bullets"
+                widget: "list"
+                required: false
+                field: { label: "항목", name: "item", widget: "string" }
+              - { label: "발주처/비고", name: "issuer", widget: "string", required: false }
+              - { label: "대표 이미지", name: "image", widget: "image", required: false }
+              - { label: "이미지 대체텍스트 (선택)", name: "imageAlt", widget: "string", required: false }
+
   - name: "programs"
     label: "프로그램"
     files:
