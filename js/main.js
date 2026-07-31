@@ -74,15 +74,7 @@ function renderSeal(el, {text = '한국문화기획학교 · KOREA ACADEMY OF CU
       <text class="ring-text">
         <textPath href="#${pathId}" startOffset="0%">${seedRepeated}</textPath>
       </text>
-      <g class="bars" transform="translate(50 50) scale(0.9) translate(-20 -20)">
-        <rect x="3"  y="3" width="4" height="34" rx="1" transform="rotate(0 5 37)"/>
-        <rect x="8"  y="3" width="4" height="34" rx="1" transform="rotate(10 10 37)"/>
-        <rect x="13" y="3" width="4" height="34" rx="1" transform="rotate(22 15 37)"/>
-        <rect x="18" y="3" width="4" height="34" rx="1" transform="rotate(30 20 37)"/>
-        <rect x="23" y="3" width="4" height="34" rx="1" transform="rotate(22 25 37)"/>
-        <rect x="28" y="3" width="4" height="34" rx="1" transform="rotate(10 30 37)"/>
-        <rect x="33" y="3" width="4" height="34" rx="1" transform="rotate(0 35 37)"/>
-      </g>
+      <image href="/images/brand/kacs-icon-white.png" x="28" y="40.7" width="44" height="18.6" preserveAspectRatio="xMidYMid meet"/>
     </svg>
   `;
   // Measure how wide ONE copy of the base phrase renders as, then lay down only

@@ -79,11 +79,11 @@ p{ margin:0 0 1em; }
   gap:16px;
 }
 .brand{ display:flex; align-items:center; gap:12px; }
-.brand-mark{ width:36px; height:36px; flex:none; }
+.brand-mark{ width:56px; height:auto; flex:none; }
 .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
 .brand-text .kr{ font-family:var(--display); font-weight:700; font-size:1.05rem; color:var(--ink); }
 .brand-text .en{ font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
-.f-col-brand .brand-mark{ width:44px; height:44px; }
+.f-col-brand .brand-mark{ width:68px; height:auto; }
 .f-col-brand .brand-text .kr{ font-size:1.2rem; }
 
 .site-header .brand{ flex-direction:column; align-items:flex-start; gap:3px; }
@@ -215,7 +215,7 @@ p{ margin:0 0 1em; }
 .seal{ display:block; }
 .seal .ring-text{ font-family:var(--mono); font-size:8.6px; letter-spacing:.2px; fill:var(--stamp); }
 .seal .ring{ fill:none; stroke:var(--stamp); }
-.seal .bars rect{ fill:var(--ink); }
+.seal image{ opacity:0.96; }
 
 /* =========================================================
    Hero
@@ -260,7 +260,6 @@ p{ margin:0 0 1em; }
 }
 .hero-seal-wrap .seal .ring{ stroke:#FFFFFF; opacity:0.85; }
 .hero-seal-wrap .seal .ring-text{ fill:#F0997B; }
-.hero-seal-wrap .seal .bars rect{ fill:#FFFFFF; }
 .hero-seal-wrap .seal-core .num{ font-family:var(--display); font-weight:700; font-size:2rem; color:#FFFFFF; }
 .hero-seal-wrap .seal-core .lbl{ font-family:var(--mono); font-size:.62rem; color:#C7CCDA; letter-spacing:.08em; }
 
