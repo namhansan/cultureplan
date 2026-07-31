@@ -31,6 +31,10 @@
     </div>
   </section>
 
+  <div class="marquee-strip" id="marqueeStrip" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
   <section class="section" style="padding-top:56px; padding-bottom:56px;">
     <div class="wrap">
       <div class="section-head reveal" style="margin-bottom:22px;">
@@ -195,6 +199,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     centerNum: '2000',
     centerLbl: 'SINCE · 문화기획'
   });
+
+  const marqueeTrack = document.getElementById('marqueeTrack');
+  if(marqueeTrack){
+    const marqueeData = await loadJSON('/content/data/marquee.json');
+    if(marqueeData && marqueeData.visible === false){
+      document.getElementById('marqueeStrip').style.display = 'none';
+    } else {
+      let marqueeItems = [];
+      if(marqueeData && marqueeData.mode === 'custom' && marqueeData.customItems && marqueeData.customItems.length){
+        marqueeItems = marqueeData.customItems;
+      } else {
+        const netData = await loadJSON('/content/data/network.json');
+        marqueeItems = ((netData && netData.items) || []).map(n => n.name).filter(Boolean);
+      }
+      if(marqueeItems.length){
+        const doubled = marqueeItems.concat(marqueeItems);
+        marqueeTrack.innerHTML = doubled.map(t => `<span class="marquee-item">${escapeHTML(t)}</span>`).join('');
+      } else {
+        document.getElementById('marqueeStrip').style.display = 'none';
+      }
+    }
+  }
 
   function setupCarousel(trackId, prevId, nextId){
     const track = document.getElementById(trackId);

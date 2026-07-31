@@ -392,6 +392,26 @@ p{ margin:0 0 1em; }
   .reveal, .stat-coin{ opacity:1 !important; transform:none !important; transition:none !important; }
   .stat-coin .ring::after{ animation:none !important; }
 }
+/* Hero marquee strip — full-bleed logo/text belt under the hero */
+.marquee-strip{
+  background:var(--ink); overflow:hidden; padding:16px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.marquee-track{
+  display:flex; gap:48px; width:max-content;
+  animation:marquee-scroll 32s linear infinite;
+}
+.marquee-strip:hover .marquee-track{ animation-play-state:paused; }
+.marquee-item{
+  color:#C7CCDA; font-family:var(--mono); font-size:.86rem; letter-spacing:.02em;
+  white-space:nowrap; display:flex; align-items:center; gap:48px;
+}
+.marquee-item::after{ content:"·"; color:#F0997B; margin-left:48px; }
+@keyframes marquee-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce){
+  .marquee-track{ animation:none; overflow-x:auto; }
+}
+
 .carousel{ display:flex; align-items:center; gap:12px; }
 .carousel-track{
   display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x proximity; scroll-behavior:smooth;

@@ -8,6 +8,33 @@ public_folder: "/images/uploads"
 publish_mode: simple
 
 collections:
+  - name: "marquee"
+    label: "메인 히어로 마퀴"
+    files:
+      - file: "content/data/marquee.json"
+        label: "메인 마퀴 설정"
+        name: "marquee"
+        fields:
+          - label: "마퀴 표시 여부"
+            name: "visible"
+            widget: "boolean"
+            default: true
+            hint: "끄면 히어로 아래 마퀴 띠 자체가 안 보여요."
+          - label: "마퀴 내용"
+            name: "mode"
+            widget: "select"
+            default: "network"
+            options:
+              - { label: "네트워크 목록 자동으로 흘려보내기", value: "network" }
+              - { label: "직접 입력한 문구 흘려보내기", value: "custom" }
+            hint: "'네트워크 목록'을 고르면 네트워크 메뉴에 등록된 기관·기업 이름이 자동으로 흘러갑니다. 새로 추가해도 따로 안 건드려도 돼요."
+          - label: "직접 입력 문구 (위에서 '직접 입력'을 선택했을 때만 사용됨)"
+            name: "customItems"
+            widget: "list"
+            required: false
+            field: { label: "문구", name: "item", widget: "string" }
+            hint: "예: 문화기획자 네트워크 · 2000년부터"
+
   - name: "business-areas"
     label: "사업영역"
     files:
