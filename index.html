@@ -33,27 +33,27 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head" style="margin-bottom:36px;">
+      <div class="section-head reveal" style="margin-bottom:36px;">
         <p class="eyebrow">숫자로 보는 한국문화기획학교</p>
         <h2><span id="yearsHeading">25</span>년, 우리가 쌓아온 기록</h2>
       </div>
-      <div class="stat-watermark-wrap">
+      <div class="stat-watermark-wrap reveal">
         <span class="stat-watermark" id="statsWatermark">2000—2025</span>
-        <div class="stat-row">
+        <div class="stat-row" id="statRow">
           <div class="stat-coin">
-            <div class="ring"><span class="n" id="yearsStat">25</span></div>
+            <div class="ring"><span class="n" id="yearsStat" data-target="25">0</span></div>
             <span class="l">YEARS · 2000년부터</span>
           </div>
           <div class="stat-coin">
-            <div class="ring"><span class="n">511+</span></div>
+            <div class="ring"><span class="n" data-target="511" data-suffix="+">0</span></div>
             <span class="l">교육 수료생</span>
           </div>
           <div class="stat-coin">
-            <div class="ring"><span class="n">50+</span></div>
+            <div class="ring"><span class="n" data-target="50" data-suffix="+">0</span></div>
             <span class="l">회원 문화기획자</span>
           </div>
           <div class="stat-coin">
-            <div class="ring"><span class="n">15</span></div>
+            <div class="ring"><span class="n" data-target="15">0</span></div>
             <span class="l">이사진 구성</span>
           </div>
         </div>
@@ -63,14 +63,14 @@
 
   <section class="section alt">
     <div class="wrap">
-      <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+      <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
           <p class="eyebrow">커뮤니티 · 살롱, 낯선</p>
           <h2><span id="salonYearsCount">12</span>년째 이어온 낯선 대화</h2>
         </div>
         <a class="btn" href="/community.html#archive-salon-narseon">아카이브 전체 보기</a>
       </div>
-      <div class="carousel">
+      <div class="carousel reveal">
         <button class="car-btn" id="salonPrev" aria-label="이전 회차">‹</button>
         <div class="carousel-track" id="homeSalon"></div>
         <button class="car-btn" id="salonNext" aria-label="다음 회차">›</button>
@@ -80,14 +80,14 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+      <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
           <p class="eyebrow">프로그램</p>
           <h2>지금, 우리가 기획하는 것들</h2>
         </div>
         <a class="btn" href="/programs.html">전체 프로그램 보기</a>
       </div>
-      <div class="carousel">
+      <div class="carousel reveal">
         <button class="car-btn" id="progPrev" aria-label="이전 프로그램">‹</button>
         <div class="carousel-track" id="homePrograms"></div>
         <button class="car-btn" id="progNext" aria-label="다음 프로그램">›</button>
@@ -97,14 +97,14 @@
 
   <section class="section alt">
     <div class="wrap">
-      <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+      <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
           <p class="eyebrow">사업영역</p>
           <h2>우리가 서 있는 자리들</h2>
         </div>
         <a class="btn" href="/about.html#areas">전체 사업영역 보기</a>
       </div>
-      <ul class="area-grid" style="list-style:none; margin:0; padding:0;">
+      <ul class="area-grid reveal" style="list-style:none; margin:0; padding:0;">
         <li class="area-card"><span class="idx">01</span><p>문화기획 전문인력 양성·교육 — 시민문화기획 아카데미 외 약 30건</p></li>
         <li class="area-card"><span class="idx">02</span><p>지역축제 기획·총괄·컨설팅 — 영도다리축제 등 축제 전략수립</p></li>
         <li class="area-card"><span class="idx">05</span><p>문화공간 운영·위탁 — 서울생활문화센터 체부, 5년 연속 운영</p></li>
@@ -115,19 +115,19 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="section-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+      <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
           <p class="eyebrow">소식</p>
           <h2>최근 공지</h2>
         </div>
         <a class="btn" href="/news.html">소식 전체 보기</a>
       </div>
-      <div class="news-list" id="homeNews"></div>
+      <div class="news-list reveal" id="homeNews"></div>
     </div>
   </section>
 
   <section class="section">
-    <div class="wrap support-box">
+    <div class="wrap support-box reveal">
       <div>
         <p class="eyebrow" style="color:var(--stamp);">함께해요</p>
         <h2>한국문화기획학교와 함께<br>다음 10년을 만들어가요</h2>
@@ -156,10 +156,40 @@ document.addEventListener('DOMContentLoaded', async () => {
   const yearsActive = currentYear - startYear;
   const watermarkEl = document.getElementById('statsWatermark');
   if(watermarkEl){ watermarkEl.textContent = `${startYear}—${currentYear}`; }
-  const yearsStatEl = document.getElementById('yearsStat');
-  if(yearsStatEl){ yearsStatEl.textContent = String(yearsActive); }
   const yearsHeadingEl = document.getElementById('yearsHeading');
   if(yearsHeadingEl){ yearsHeadingEl.textContent = String(yearsActive); }
+  const yearsStatEl = document.getElementById('yearsStat');
+  if(yearsStatEl){ yearsStatEl.setAttribute('data-target', String(yearsActive)); }
+
+  // Stat coins: reveal one by one, then count up, the first time the row scrolls into view.
+  const statRow = document.getElementById('statRow');
+  if(statRow){
+    const coins = Array.from(statRow.querySelectorAll('.stat-coin'));
+    coins.forEach((coin, i) => { coin.style.transitionDelay = `${i * 110}ms`; });
+    const runCountUp = (el) => {
+      const target = parseFloat(el.getAttribute('data-target') || '0');
+      const suffix = el.getAttribute('data-suffix') || '';
+      const duration = 1100;
+      const start = performance.now();
+      function step(now){
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    };
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          coins.forEach(c => c.classList.add('revealed'));
+          statRow.querySelectorAll('.n[data-target]').forEach(runCountUp);
+          obs.unobserve(statRow);
+        }
+      });
+    }, { threshold: 0.35 });
+    obs.observe(statRow);
+  }
 
   renderSeal(document.getElementById('heroSeal'), {
     centerNum: '2000',

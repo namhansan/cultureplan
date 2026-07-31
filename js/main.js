@@ -185,8 +185,24 @@ function initIdentityGlobal(){
   document.head.appendChild(s);
 }
 
+// ---- scroll reveal (fade + slide up elements with class="reveal") ----
+function initScrollReveal(){
+  const items = document.querySelectorAll('.reveal');
+  if(!items.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(el => obs.observe(el));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadPartials();
   initBackToTop();
   initIdentityGlobal();
+  initScrollReveal();
 });
