@@ -80,7 +80,6 @@ p{ margin:0 0 1em; }
 }
 .brand{ display:flex; align-items:center; gap:12px; }
 .brand-mark{ width:36px; height:36px; flex:none; }
-.brand-mark .bars rect{ fill:var(--ink); }
 .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
 .brand-text .kr{ font-family:var(--display); font-weight:700; font-size:1.05rem; color:var(--ink); }
 .brand-text .en{ font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
@@ -392,10 +391,10 @@ p{ margin:0 0 1em; }
   .reveal, .stat-coin{ opacity:1 !important; transform:none !important; transition:none !important; }
   .stat-coin .ring::after{ animation:none !important; }
 }
-/* Hero marquee strip — full-bleed logo/text belt under the hero */
+/* Hero marquee strip — plain flowing text belt, no boxed background */
 .marquee-strip{
-  background:var(--ink); overflow:hidden; padding:16px 0;
-  border-bottom:1px solid rgba(255,255,255,.08);
+  overflow:hidden; padding:22px 0;
+  border-top:1px solid var(--line);
 }
 .marquee-track{
   display:flex; gap:48px; width:max-content;
@@ -403,10 +402,10 @@ p{ margin:0 0 1em; }
 }
 .marquee-strip:hover .marquee-track{ animation-play-state:paused; }
 .marquee-item{
-  color:#C7CCDA; font-family:var(--mono); font-size:.86rem; letter-spacing:.02em;
+  color:var(--ink-soft); font-family:var(--mono); font-size:.86rem; letter-spacing:.02em;
   white-space:nowrap; display:flex; align-items:center; gap:48px;
 }
-.marquee-item::after{ content:"·"; color:#F0997B; margin-left:48px; }
+.marquee-item::after{ content:"·"; color:var(--stamp); margin-left:48px; }
 @keyframes marquee-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
 @media (prefers-reduced-motion: reduce){
   .marquee-track{ animation:none; overflow-x:auto; }
