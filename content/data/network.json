@@ -5,14 +5,16 @@
       "tagline": "축제 컨설팅 자매 브랜드",
       "description": "한국문화기획학교의 축제 컨설팅 노하우를 이어가는 자매 브랜드입니다. 원포인트 축제 컨설팅, 축제감독 양성과정 '내일의 축제감독', 축제 재원조성 컨설팅을 전문으로 운영합니다.",
       "url": "https://kfsc-website.vercel.app/",
-      "category": "운영시설 및 기관"
+      "category": "운영시설 및 기관",
+      "image": "/images/uploads/screen-shot-2026-07-31-at-4.38.42-pm.png"
     },
     {
       "name": "체부홀",
       "tagline": "서울생활문화센터 체부",
       "description": "한국문화기획학교가 5년째 운영을 위탁받아 운영 중인 문화공간입니다. 살롱 낯선, 살롱 내일을 비롯한 각종 커뮤니티 프로그램이 이곳에서 열립니다.",
       "url": "https://ccasc.or.kr/",
-      "category": "운영시설 및 기관"
+      "category": "운영시설 및 기관",
+      "image": "/images/uploads/chebu-building.jpg"
     },
     {
       "name": "㈜그린임팩트",
@@ -33,7 +35,8 @@
       "tagline": "콘텐츠·브랜딩 파트너",
       "description": "문화 콘텐츠 기획과 브랜딩을 함께하는 협력문화기업입니다.",
       "url": "https://comefunny.com/",
-      "category": "협력문화기업"
+      "category": "협력문화기업",
+      "image": "/images/uploads/screen-shot-2026-07-31-at-4.40.53-pm.png"
     },
     {
       "name": "한국축제감독회의",
@@ -48,7 +51,7 @@
       "description": "한국문화기획학교와 함께하는 협력문화기업입니다.",
       "url": "https://share.google/9O58lvb50Ywl9xZZK",
       "category": "협력문화기업",
-      "image": ""
+      "image": "/images/uploads/qx-logo.png"
     },
     {
       "name": "피쉬아이",
