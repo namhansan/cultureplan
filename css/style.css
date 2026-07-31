@@ -590,7 +590,7 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
   color:var(--ink); opacity:0.07; white-space:nowrap; pointer-events:none; user-select:none;
   letter-spacing:-0.03em;
 }
-.stat-watermark-wrap .stat-row{ position:relative; padding-top:4px; padding-bottom:6px; }
+.stat-watermark-wrap .stat-row{ position:relative; padding-top:18px; padding-bottom:8px; }
 
 /* Stat coins — a row of seal-like medallions on a perforated line */
 .stat-row{
@@ -608,7 +608,7 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
   transition:opacity .55s ease, transform .55s ease;
 }
 .stat-coin.revealed{ opacity:1; transform:translateY(0); }
-.stat-coin:nth-child(2n){ margin-bottom:30px; }
+.stat-coin:nth-child(2n){ margin-bottom:14px; }
 .stat-coin .ring{
   width:136px; height:136px; border-radius:50%; background:var(--ink);
   display:flex; align-items:center; justify-content:center;
