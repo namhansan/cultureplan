@@ -679,6 +679,14 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
 .f-desc{ font-size:.88rem; color:var(--ink-soft); max-width:34ch; margin:0 0 12px; }
 .f-partner{ font-family:var(--mono); font-size:.78rem; margin:0; }
 .f-partner a{ color:var(--forest-deep); font-weight:600; }
+.f-social{ display:flex; gap:10px; margin-top:16px; }
+.f-social a{
+  width:34px; height:34px; border-radius:50%; border:1px solid var(--line-strong);
+  display:flex; align-items:center; justify-content:center; color:var(--ink-soft);
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.f-social a svg{ width:16px; height:16px; }
+.f-social a:hover{ background:var(--ink); border-color:var(--ink); color:#fff; }
 .footer-bottom{
   display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
   padding:22px 0 26px; font-size:.82rem; color:var(--ink-soft);
