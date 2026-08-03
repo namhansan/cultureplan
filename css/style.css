@@ -688,19 +688,21 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
 .f-social a svg{ width:16px; height:16px; }
 .f-social a:hover{ background:var(--ink); border-color:var(--ink); color:#fff; }
 .footer-bottom{
-  display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;
   padding:22px 0 26px; font-size:.82rem; color:var(--ink-soft);
 }
+.footer-bottom-left{ display:flex; flex-direction:column; gap:6px; }
 .footer-bottom address{ font-style:normal; }
 .footer-bottom .copyright{ font-family:var(--mono); font-size:.72rem; }
 .admin-link{ color:var(--ink-soft); opacity:0.6; text-decoration:none; }
 .admin-link:hover{ opacity:1; text-decoration:underline; }
+.footer-bottom .f-social{ margin-top:0; }
 @media (max-width:900px){
   .footer-top{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width:560px){
   .footer-top{ grid-template-columns:1fr; }
-  .footer-bottom{ flex-direction:column; }
+  .footer-bottom{ flex-direction:column; align-items:flex-start; }
 }
 
 /* Page header (for inner pages) */
