@@ -226,6 +226,7 @@ collections:
               - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
               - { label: "제목/주제", name: "title", widget: "string" }
               - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
+              - { label: "스케치 영상 (유튜브 링크)", name: "youtubeUrl", widget: "string", required: false, hint: "유튜브 영상 주소를 붙여넣으면 페이지 안에서 바로 재생 버튼이 생겨요. 유튜브로 이동하지 않고 그 자리에서 재생됩니다." }
               - { label: "설명", name: "desc", widget: "text", required: false }
               - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
               - { label: "장소", name: "location", widget: "string", required: false }
@@ -245,6 +246,7 @@ collections:
               - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
               - { label: "제목/주제", name: "title", widget: "string" }
               - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
+              - { label: "스케치 영상 (유튜브 링크)", name: "youtubeUrl", widget: "string", required: false, hint: "유튜브 영상 주소를 붙여넣으면 페이지 안에서 바로 재생 버튼이 생겨요. 유튜브로 이동하지 않고 그 자리에서 재생됩니다." }
               - { label: "설명", name: "desc", widget: "text", required: false }
               - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
               - { label: "장소", name: "location", widget: "string", required: false }
@@ -264,6 +266,7 @@ collections:
               - { label: "날짜", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, picker_utc: true }
               - { label: "제목/주제", name: "title", widget: "string" }
               - { label: "포스터 이미지", name: "poster", widget: "image", required: false }
+              - { label: "스케치 영상 (유튜브 링크)", name: "youtubeUrl", widget: "string", required: false, hint: "유튜브 영상 주소를 붙여넣으면 페이지 안에서 바로 재생 버튼이 생겨요. 유튜브로 이동하지 않고 그 자리에서 재생됩니다." }
               - { label: "설명", name: "desc", widget: "text", required: false }
               - { label: "강연자 정보", name: "speaker", widget: "text", required: false }
               - { label: "장소", name: "location", widget: "string", required: false }

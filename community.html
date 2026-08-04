@@ -68,9 +68,38 @@ function renderArchiveEntries(host, list){
         ${e.desc ? `<p>${escapeHTML(e.desc)}</p>` : ''}
         ${e.speaker ? `<p class="a-speaker">${escapeHTML(e.speaker)}</p>` : ''}
         ${e.location ? `<div class="a-loc">${escapeHTML(e.location)}</div>` : ''}
+        ${e.youtubeUrl ? `<button type="button" class="video-btn" onclick="playSketchVideo(event, '${encodeURI(e.youtubeUrl)}')">▶ 스케치 영상 보기</button>` : ''}
       </div>
     </details>
   `).join('');
+}
+
+function getYoutubeId(url){
+  if(!url) return '';
+  const patterns = [
+    /(?:youtu\.be\/)([\w-]{11})/,
+    /(?:youtube\.com\/watch\?v=)([\w-]{11})/,
+    /(?:youtube\.com\/embed\/)([\w-]{11})/,
+    /(?:youtube\.com\/live\/)([\w-]{11})/,
+    /(?:youtube\.com\/shorts\/)([\w-]{11})/
+  ];
+  for(const p of patterns){
+    const m = url.match(p);
+    if(m) return m[1];
+  }
+  return '';
+}
+
+function playSketchVideo(event, url){
+  event.preventDefault();
+  event.stopPropagation();
+  const id = getYoutubeId(decodeURI(url));
+  if(!id) return;
+  const btn = event.currentTarget;
+  const wrap = document.createElement('div');
+  wrap.className = 'video-embed';
+  wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1" title="스케치 영상" frameborder="0" allow="accelerate-3d; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  btn.replaceWith(wrap);
 }
 
 function openPosterLightbox(event, src){
