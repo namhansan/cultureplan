@@ -194,6 +194,35 @@ function initScrollReveal(){
   items.forEach(el => obs.observe(el));
 }
 
+// ---- shared YouTube inline playback (used on community.html, news.html, etc.) ----
+function getYoutubeId(url){
+  if(!url) return '';
+  const patterns = [
+    /(?:youtu\.be\/)([\w-]{11})/,
+    /(?:youtube\.com\/watch\?v=)([\w-]{11})/,
+    /(?:youtube\.com\/embed\/)([\w-]{11})/,
+    /(?:youtube\.com\/live\/)([\w-]{11})/,
+    /(?:youtube\.com\/shorts\/)([\w-]{11})/
+  ];
+  for(const p of patterns){
+    const m = url.match(p);
+    if(m) return m[1];
+  }
+  return '';
+}
+
+function playSketchVideo(event, url){
+  event.preventDefault();
+  event.stopPropagation();
+  const id = getYoutubeId(decodeURI(url));
+  if(!id) return;
+  const btn = event.currentTarget;
+  const wrap = document.createElement('div');
+  wrap.className = 'video-embed';
+  wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1" title="영상" frameborder="0" allow="accelerate-3d; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  btn.replaceWith(wrap);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadPartials();
   initBackToTop();

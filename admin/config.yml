@@ -148,6 +148,11 @@ collections:
                 name: "body"
                 widget: "text"
                 required: false
+              - label: "스케치/관련 영상 (유튜브 링크, 선택)"
+                name: "youtubeUrl"
+                widget: "string"
+                required: false
+                hint: "유튜브 영상 주소를 붙여넣으면 유튜브로 이동하지 않고 이 페이지 안에서 바로 재생 버튼이 생겨요."
               - label: "링크 URL (선택)"
                 name: "link"
                 widget: "string"
