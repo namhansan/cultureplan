@@ -217,9 +217,23 @@ function playSketchVideo(event, url){
   const id = getYoutubeId(decodeURI(url));
   if(!id) return;
   const btn = event.currentTarget;
+  const btnLabel = btn.textContent;
   const wrap = document.createElement('div');
   wrap.className = 'video-embed';
-  wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1" title="영상" frameborder="0" allow="accelerate-3d; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+  wrap.innerHTML = `
+    <button type="button" class="video-close" aria-label="영상 닫기">✕</button>
+    <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1" title="영상" frameborder="0" allow="accelerate-3d; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  `;
+  wrap.querySelector('.video-close').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const restoredBtn = document.createElement('button');
+    restoredBtn.type = 'button';
+    restoredBtn.className = 'video-btn';
+    restoredBtn.textContent = btnLabel;
+    restoredBtn.addEventListener('click', (ev) => playSketchVideo(ev, url));
+    wrap.replaceWith(restoredBtn);
+  });
   btn.replaceWith(wrap);
 }
 
