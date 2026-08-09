@@ -210,14 +210,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       let marqueeItems = [];
       if(marqueeData && marqueeData.mode === 'custom' && marqueeData.customItems && marqueeData.customItems.length){
-        marqueeItems = marqueeData.customItems;
+        marqueeItems = marqueeData.customItems.map(t => ({ name: t, image: '' }));
       } else {
         const netData = await loadJSON('/content/data/network.json');
-        marqueeItems = ((netData && netData.items) || []).map(n => n.name).filter(Boolean);
+        marqueeItems = ((netData && netData.items) || [])
+          .filter(n => n && n.name)
+          .map(n => ({ name: n.name, image: n.image || '' }));
       }
       if(marqueeItems.length){
         const doubled = marqueeItems.concat(marqueeItems);
-        marqueeTrack.innerHTML = doubled.map(t => `<span class="marquee-item">${escapeHTML(t)}</span>`).join('');
+        marqueeTrack.innerHTML = doubled.map(n => `
+          <span class="marquee-item">
+            ${n.image ? `<img class="marquee-logo" src="${encodeURI(n.image)}" alt="" loading="lazy">` : ''}
+            ${escapeHTML(n.name)}
+          </span>
+        `).join('');
       } else {
         document.getElementById('marqueeStrip').style.display = 'none';
       }
