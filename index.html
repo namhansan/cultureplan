@@ -84,6 +84,23 @@
     <div class="wrap">
       <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
         <div>
+          <p class="eyebrow">커뮤니티 · 살롱, 내일</p>
+          <h2><span id="tomorrowYearsCount">1</span>년째 이어온 청년 기획자 네트워크</h2>
+        </div>
+        <a class="btn" href="/community.html#archive-salon-tomorrow">아카이브 전체 보기</a>
+      </div>
+      <div class="carousel reveal">
+        <button class="car-btn" id="tomorrowPrev" aria-label="이전 회차">‹</button>
+        <div class="carousel-track" id="homeTomorrow"></div>
+        <button class="car-btn" id="tomorrowNext" aria-label="다음 회차">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+        <div>
           <p class="eyebrow">프로그램</p>
           <h2>지금, 우리가 기획하는 것들</h2>
         </div>
@@ -94,24 +111,6 @@
         <div class="carousel-track" id="homePrograms"></div>
         <button class="car-btn" id="progNext" aria-label="다음 프로그램">›</button>
       </div>
-    </div>
-  </section>
-
-  <section class="section alt">
-    <div class="wrap">
-      <div class="section-head reveal" style="display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
-        <div>
-          <p class="eyebrow">사업영역</p>
-          <h2>우리가 서 있는 자리들</h2>
-        </div>
-        <a class="btn" href="/about.html#areas">전체 사업영역 보기</a>
-      </div>
-      <ul class="area-grid reveal" style="list-style:none; margin:0; padding:0;">
-        <li class="area-card"><span class="idx">01</span><p>문화기획 전문인력 양성·교육 — 시민문화기획 아카데미 외 약 30건</p></li>
-        <li class="area-card"><span class="idx">02</span><p>지역축제 기획·총괄·컨설팅 — 영도다리축제 등 축제 전략수립</p></li>
-        <li class="area-card"><span class="idx">05</span><p>문화공간 운영·위탁 — 서울생활문화센터 체부, 5년 연속 운영</p></li>
-        <li class="area-card"><span class="idx">06</span><p>미식·식문화 관광자원 활성화 — 구미라면축제 총괄기획</p></li>
-      </ul>
     </div>
   </section>
 
@@ -273,6 +272,27 @@ document.addEventListener('DOMContentLoaded', async () => {
       </a>
     `).join('') : `<div class="empty-note">아직 등록된 회차가 없습니다.</div>`;
     setupCarousel('homeSalon', 'salonPrev', 'salonNext');
+  }
+
+  const tomorrowData = await loadJSON('/content/data/archive-salon-tomorrow.json');
+  const tomorrowHost = document.getElementById('homeTomorrow');
+  if(tomorrowHost){
+    const tomorrowEntries = ((tomorrowData && tomorrowData.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+    const tomorrowYears = tomorrowEntries.map(e => parseInt((e.date||'').slice(0,4), 10)).filter(y => !isNaN(y));
+    const tomorrowYearsEl = document.getElementById('tomorrowYearsCount');
+    if(tomorrowYearsEl && tomorrowYears.length){
+      tomorrowYearsEl.textContent = String(Math.max(...tomorrowYears) - Math.min(...tomorrowYears) + 1);
+    }
+    tomorrowHost.innerHTML = tomorrowEntries.length ? tomorrowEntries.map(e => `
+      <a class="archive-card" href="/community.html#archive-salon-tomorrow">
+        ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
+        <div class="ac-body">
+          <span class="a-date">${escapeHTML(e.date||'')}</span>
+          <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
+        </div>
+      </a>
+    `).join('') : `<div class="empty-note">아직 등록된 회차가 없습니다.</div>`;
+    setupCarousel('homeTomorrow', 'tomorrowPrev', 'tomorrowNext');
   }
 
   const newsData = await loadJSON('/content/data/news.json');
