@@ -490,6 +490,63 @@ a.ticket:hover .arrow{ transform:translateX(3px); }
 .news-row .tag{ font-family:var(--mono); font-size:.7rem; color:var(--ink-soft); }
 @media (max-width:620px){ .news-row{ grid-template-columns:1fr; gap:4px; } }
 
+/* 메인 페이지 "최근 공지" — 제목을 누르면 한 개만 펼쳐지는 아코디언 */
+.news-row--expandable{ align-items:flex-start; }
+.news-row--expandable .news-body{ min-width:0; }
+.news-title-btn{
+  all:unset; display:flex; align-items:center; gap:8px; width:100%; cursor:pointer; box-sizing:border-box;
+}
+.news-title-btn h3{ transition:color .15s ease; }
+.news-title-btn:hover h3{ color:var(--stamp-deep); }
+.news-caret{
+  flex:none; font-size:.72rem; color:var(--ink-soft); transition:transform .2s ease; margin-top:2px;
+}
+.news-row--expandable.is-open .news-caret{ transform:rotate(180deg); color:var(--stamp-deep); }
+.news-expand{
+  margin-top:12px; font-size:.9rem; color:var(--ink-soft); line-height:1.65;
+  border-top:1px dashed var(--line-strong); padding-top:12px;
+}
+.news-expand p{ margin:0 0 8px; white-space:pre-line; }
+@media (max-width:620px){
+  .news-row--expandable{ grid-template-columns:1fr; }
+}
+
+/* 홈페이지 접속 시 소식 팝업 */
+.site-popup-overlay{
+  display:none; position:fixed; inset:0; z-index:1200; background:rgba(10,14,24,0.72);
+  align-items:center; justify-content:center; padding:20px;
+}
+.site-popup-overlay.open{ display:flex; }
+.site-popup{
+  position:relative; width:100%; max-width:420px; max-height:86vh; overflow-y:auto;
+  background:var(--paper); border-radius:14px; padding:32px 28px 24px;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
+.site-popup-close{
+  position:absolute; top:14px; right:14px; width:32px; height:32px; border-radius:50%;
+  border:none; background:var(--paper-deep); color:var(--ink); font-size:.9rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:background .15s ease;
+}
+.site-popup-close:hover{ background:var(--line-strong); }
+.site-popup-tag{
+  display:inline-block; font-family:var(--mono); font-size:.68rem; letter-spacing:.05em;
+  color:var(--stamp-deep); border:1px solid var(--stamp); border-radius:999px; padding:3px 10px; margin-bottom:10px;
+}
+.site-popup h3{ margin:0 0 6px; font-size:1.18rem; color:var(--ink); padding-right:24px; }
+.site-popup-date{ display:block; font-family:var(--mono); font-size:.76rem; color:var(--ink-soft); margin-bottom:14px; }
+.site-popup-body{ font-size:.92rem; line-height:1.7; color:var(--ink-soft); white-space:pre-line; margin:0 0 6px; }
+.site-popup-linkwrap{ margin-top:14px; }
+.site-popup-foot{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  margin-top:18px; padding-top:14px; border-top:1px solid var(--line);
+}
+.site-popup-hide{ display:flex; align-items:center; gap:6px; font-size:.82rem; color:var(--ink-soft); cursor:pointer; }
+.site-popup-next{
+  background:none; border:1px solid var(--line-strong); border-radius:999px; padding:7px 14px;
+  font-size:.78rem; color:var(--ink); cursor:pointer; transition:background .15s ease;
+}
+.site-popup-next:hover{ background:var(--paper-deep); }
+
 /* Timeline (발자취) — genuine chronological sequence */
 .timeline{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--line-strong); }
 .tl-step{ padding:26px 22px 0; border-left:1px solid var(--line-strong); position:relative; }

@@ -163,6 +163,30 @@ collections:
                 widget: "string"
                 required: false
                 hint: "예: 국세청 홈택스 바로가기"
+              - label: "홈페이지 접속 시 팝업으로 띄우기"
+                name: "popupEnabled"
+                widget: "boolean"
+                default: false
+                required: false
+                hint: "체크하면 아래 기간 동안 홈페이지 첫 화면에 이 소식이 팝업창으로 나타납니다."
+              - label: "팝업 시작일 (선택)"
+                name: "popupStart"
+                widget: "datetime"
+                format: "YYYY-MM-DD"
+                date_format: "YYYY-MM-DD"
+                time_format: false
+                picker_utc: true
+                required: false
+                hint: "비워두면 지금부터 바로 노출됩니다."
+              - label: "팝업 종료일 (선택)"
+                name: "popupEnd"
+                widget: "datetime"
+                format: "YYYY-MM-DD"
+                date_format: "YYYY-MM-DD"
+                time_format: false
+                picker_utc: true
+                required: false
+                hint: "비워두면 별도 종료일 없이 계속 노출됩니다. (직접 체크 해제할 때까지 유지)"
 
   - name: "network"
     label: "네트워크"

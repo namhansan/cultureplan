@@ -12,6 +12,8 @@
 </head>
 <body data-page="home">
 
+<div class="site-popup-overlay" id="popupOverlay" aria-hidden="true"></div>
+
 <header class="site-header" id="site-header"></header>
 
 <main>
@@ -271,14 +273,134 @@ document.addEventListener('DOMContentLoaded', async () => {
   if(newsData && newsHost){
     const sortedNews = [...(newsData.items||[])].sort((a,b) => (b.date||'').localeCompare(a.date||''));
     newsHost.innerHTML = sortedNews.slice(0,3).map(n => `
-      <div class="news-row">
+      <div class="news-row news-row--expandable">
         <span class="date">${escapeHTML(n.date||'')}</span>
-        <h3>${escapeHTML(n.title||'')}</h3>
+        <div class="news-body">
+          <button type="button" class="news-title-btn" aria-expanded="false">
+            <h3>${escapeHTML(n.title||'')}</h3>
+            <span class="news-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="news-expand" hidden>
+            ${n.body ? `<p>${escapeHTML(n.body)}</p>` : ''}
+            ${n.youtubeUrl ? `<button type="button" class="video-btn" onclick="playSketchVideo(event, '${encodeURI(n.youtubeUrl)}')">▶ 영상 보기</button>` : ''}
+            ${n.link ? `<p style="margin-top:10px;"><a class="btn" href="${encodeURI(n.link)}" target="_blank" rel="noopener">${escapeHTML(n.linkLabel || '바로가기')} ↗</a></p>` : ''}
+          </div>
+        </div>
         <span class="tag">${escapeHTML(n.tag||'')}</span>
       </div>
     `).join('');
+
+    // 제목을 누르면 해당 소식만 펼쳐지고(하나만 열림), 다시 누르면 접힘
+    const newsRows = Array.from(newsHost.querySelectorAll('.news-row--expandable'));
+    newsRows.forEach(row => {
+      const btn = row.querySelector('.news-title-btn');
+      const expand = row.querySelector('.news-expand');
+      btn.addEventListener('click', () => {
+        const alreadyOpen = row.classList.contains('is-open');
+        newsRows.forEach(r => {
+          r.classList.remove('is-open');
+          r.querySelector('.news-expand').hidden = true;
+          r.querySelector('.news-title-btn').setAttribute('aria-expanded', 'false');
+        });
+        if(!alreadyOpen){
+          row.classList.add('is-open');
+          expand.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
   }
+
+  // 관리자가 "홈페이지 접속 시 팝업으로 띄우기"를 체크하고 기간을 지정한 소식을
+  // 홈페이지 접속 시 팝업창으로 보여줍니다.
+  initNewsPopups((newsData && newsData.items) || []);
 });
+
+function isPopupActiveNow(n){
+  if(!n || !n.popupEnabled) return false;
+  const today = new Date();
+  if(n.popupStart){
+    const start = new Date(n.popupStart);
+    if(!isNaN(start) && today < new Date(start.getFullYear(), start.getMonth(), start.getDate())) return false;
+  }
+  if(n.popupEnd){
+    const end = new Date(n.popupEnd);
+    if(!isNaN(end) && today > new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59)) return false;
+  }
+  return true;
+}
+
+function popupStorageKey(n){
+  return 'kacs-popup-hide::' + (n.date || '') + '::' + (n.title || '').slice(0, 24);
+}
+
+function initNewsPopups(items){
+  const overlay = document.getElementById('popupOverlay');
+  if(!overlay) return;
+  const now = new Date();
+  const queue = items.filter(isPopupActiveNow).filter(n => {
+    const hideUntilRaw = localStorage.getItem(popupStorageKey(n));
+    if(!hideUntilRaw) return true;
+    const hideUntil = new Date(hideUntilRaw);
+    return isNaN(hideUntil) || hideUntil <= now;
+  });
+  if(!queue.length) return;
+
+  let idx = 0;
+
+  function render(){
+    const n = queue[idx];
+    overlay.innerHTML = `
+      <div class="site-popup" role="dialog" aria-modal="true" aria-label="${escapeHTML(n.title || '공지 팝업')}">
+        <button type="button" class="site-popup-close" aria-label="팝업 닫기">✕</button>
+        ${n.tag ? `<span class="site-popup-tag">${escapeHTML(n.tag)}</span>` : ''}
+        <h3>${escapeHTML(n.title || '')}</h3>
+        ${n.date ? `<span class="site-popup-date">${escapeHTML(n.date)}</span>` : ''}
+        ${n.body ? `<p class="site-popup-body">${escapeHTML(n.body)}</p>` : ''}
+        ${n.link ? `<p class="site-popup-linkwrap"><a class="btn primary" href="${encodeURI(n.link)}" target="_blank" rel="noopener">${escapeHTML(n.linkLabel || '바로가기')} ↗</a></p>` : ''}
+        <div class="site-popup-foot">
+          <label class="site-popup-hide"><input type="checkbox" id="popupHideToday"> 오늘 하루 보지 않기</label>
+          ${queue.length > 1 ? `<button type="button" class="site-popup-next">다음 소식 (${idx + 1}/${queue.length}) →</button>` : ''}
+        </div>
+      </div>
+    `;
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+
+    overlay.querySelector('.site-popup-close').addEventListener('click', () => close(true));
+    const nextBtn = overlay.querySelector('.site-popup-next');
+    if(nextBtn){
+      nextBtn.addEventListener('click', () => {
+        applyHideChoice();
+        idx += 1;
+        if(idx < queue.length){ render(); } else { close(false); }
+      });
+    }
+  }
+
+  overlay.addEventListener('click', (e) => {
+    if(e.target === overlay) close(true);
+  });
+
+  function applyHideChoice(){
+    const checkbox = document.getElementById('popupHideToday');
+    if(checkbox && checkbox.checked){
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      localStorage.setItem(popupStorageKey(queue[idx]), tomorrow.toISOString());
+    }
+  }
+
+  function close(applyChoice){
+    if(applyChoice) applyHideChoice();
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.innerHTML = '';
+  }
+
+  render();
+}
 </script>
 </body>
 </html>
