@@ -72,6 +72,7 @@
         </div>
         <a class="btn" href="/community.html#archive-salon-narseon">아카이브 전체 보기</a>
       </div>
+      <div class="salon-spotlight reveal" id="salonSpotlight"></div>
       <div class="carousel reveal">
         <button class="car-btn" id="salonPrev" aria-label="이전 회차">‹</button>
         <div class="carousel-track" id="homeSalon"></div>
@@ -255,6 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const salonData = await loadJSON('/content/data/salon-archive.json');
   const salonHost = document.getElementById('homeSalon');
+  const salonSpotlightHost = document.getElementById('salonSpotlight');
   if(salonHost){
     const salonEntries = ((salonData && salonData.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
     const salonYears = salonEntries.map(e => parseInt((e.date||'').slice(0,4), 10)).filter(y => !isNaN(y));
@@ -262,7 +264,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     if(salonYearsEl && salonYears.length){
       salonYearsEl.textContent = String(Math.max(...salonYears) - Math.min(...salonYears) + 1);
     }
-    salonHost.innerHTML = salonEntries.length ? salonEntries.map(e => `
+
+    // 가장 최근 회차는 큰 스포트라이트 카드로 강조하고, 나머지는 기존 캐러셀 그대로 이어갑니다.
+    const [spotlight, ...restEntries] = salonEntries;
+    if(salonSpotlightHost){
+      if(spotlight){
+        const excerpt = (spotlight.desc || '').split('\n').map(s => s.trim()).filter(Boolean).slice(0, 2).join(' ');
+        salonSpotlightHost.innerHTML = `
+          <a class="salon-spotlight-card" href="/community.html#archive-salon-narseon">
+            ${spotlight.poster ? `<img class="ss-poster" src="${encodeURI(spotlight.poster)}" alt="${escapeHTML(spotlight.title||'')}" loading="lazy">` : ''}
+            <div class="ss-body">
+              <span class="ss-badge">최신 회차</span>
+              <span class="ss-date">${escapeHTML(spotlight.date||'')}</span>
+              <h3>${escapeHTML((spotlight.title||'').replace(/[""]/g,''))}</h3>
+              ${excerpt ? `<p class="ss-desc">${escapeHTML(excerpt)}</p>` : ''}
+              <span class="ss-cta">자세히 보기 ↗</span>
+            </div>
+          </a>
+        `;
+      } else {
+        salonSpotlightHost.style.display = 'none';
+      }
+    }
+
+    salonHost.innerHTML = restEntries.length ? restEntries.map(e => `
       <a class="archive-card" href="/community.html#archive-salon-narseon">
         ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
         <div class="ac-body">
@@ -270,23 +295,43 @@ document.addEventListener('DOMContentLoaded', async () => {
           <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
         </div>
       </a>
-    `).join('') : `<div class="empty-note">아직 등록된 회차가 없습니다.</div>`;
+    `).join('') : '';
     setupCarousel('homeSalon', 'salonPrev', 'salonNext');
+  }
+
+  // "* 이름 소속" 형태로 입력된 발표자 목록을 이름 배열로 분리합니다.
+  function parseSpeakerNames(raw){
+    if(!raw) return [];
+    return raw.split('\n')
+      .map(line => line.replace(/^[\*\-\u00b7\s]+/, '').trim())
+      .filter(Boolean)
+      .filter(line => line.length <= 24); // 소개글 등 긴 줄(경력 설명)은 이름이 아니므로 제외
   }
 
   const tomorrowData = await loadJSON('/content/data/archive-salon-tomorrow.json');
   const tomorrowHost = document.getElementById('homeTomorrow');
   if(tomorrowHost){
     const tomorrowEntries = ((tomorrowData && tomorrowData.items) || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
-    tomorrowHost.innerHTML = tomorrowEntries.length ? tomorrowEntries.map(e => `
-      <a class="archive-card" href="/community.html#archive-salon-tomorrow">
-        ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
-        <div class="ac-body">
-          <span class="a-date">${escapeHTML(e.date||'')}</span>
-          <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
-        </div>
-      </a>
-    `).join('') : `<div class="empty-note">아직 등록된 회차가 없습니다.</div>`;
+    tomorrowHost.innerHTML = tomorrowEntries.length ? tomorrowEntries.map(e => {
+      const speakers = parseSpeakerNames(e.speaker);
+      const shown = speakers.slice(0, 3);
+      const extra = speakers.length - shown.length;
+      const chips = shown.length ? `
+        <div class="speaker-chips">
+          ${shown.map(s => `<span class="speaker-chip">${escapeHTML(s)}</span>`).join('')}
+          ${extra > 0 ? `<span class="speaker-chip speaker-chip--more">+${extra}</span>` : ''}
+        </div>` : '';
+      return `
+        <a class="archive-card" href="/community.html#archive-salon-tomorrow">
+          ${e.poster ? `<img class="ac-poster" src="${encodeURI(e.poster)}" alt="${escapeHTML(e.title||'')}" loading="lazy">` : ''}
+          <div class="ac-body">
+            <span class="a-date">${escapeHTML(e.date||'')}</span>
+            <h3>${escapeHTML((e.title||'').replace(/[""]/g,''))}</h3>
+            ${chips}
+          </div>
+        </a>
+      `;
+    }).join('') : `<div class="empty-note">아직 등록된 회차가 없습니다.</div>`;
     setupCarousel('homeTomorrow', 'tomorrowPrev', 'tomorrowNext');
   }
 
