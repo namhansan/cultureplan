@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>프로그램 — 한국문화기획학교</title>
-<meta name="description" content="한국문화기획학교가 진행하는 교육, 살롱, 컨설팅 프로그램을 소개합니다.">
+<title>사업부문 — 한국문화기획학교</title>
+<meta name="description" content="한국문화기획학교의 연구·컨설팅, 축제지원, 교육, 공간운영및축제실행 사업부문을 소개합니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -18,9 +18,9 @@
   <section class="page-hero ambient">
     <div class="page-hero-ambient-bg" aria-hidden="true"><span class="blob-1"></span><span class="blob-2"></span></div>
     <div class="wrap">
-      <p class="eyebrow">프로그램</p>
-      <h1>교육 프로그램, 문화 프로젝트</h1>
-      <p class="lede">문화기획자를 위한 교육과정부터 지자체·기관과 함께하는 컨설팅·축제기획·공간운영까지, 한국문화기획학교가 운영하는 프로그램입니다. 카테고리는 계속 늘어날 예정입니다.</p>
+      <p class="eyebrow">사업부문</p>
+      <h1>연구·컨설팅, 축제지원, 교육, 공간운영및축제실행</h1>
+      <p class="lede">한국문화기획학교는 문화기획 연구와 자문·연구결과서 발행부터 지자체·기관과 함께하는 축제지원, 문화기획자 교육, 그리고 공간을 직접 운영하거나 사업을 수주해 실행하는 일까지 네 개 사업부문으로 나누어 운영합니다.</p>
     </div>
   </section>
 
@@ -28,7 +28,7 @@
     <div class="wrap">
       <div id="indexTabs" class="index-tabs"></div>
       <div id="indexPanel" class="index-panel">
-        <p>프로그램을 불러오는 중입니다…</p>
+        <p>사업부문을 불러오는 중입니다…</p>
       </div>
     </div>
   </section>
@@ -42,16 +42,9 @@ let ACTIVE_CATEGORY = null;
 let ACTIVE_SUB = '전체';
 
 function buildCategoryOrder(items){
-  const preferredOrder = ['교육 프로그램', '문화 프로젝트'];
-  const seen = [];
-  items.forEach(p => { const k = p.category || '프로그램'; if(!seen.includes(k)) seen.push(k); });
-  seen.sort((a,b) => {
-    const ia = preferredOrder.indexOf(a), ib = preferredOrder.indexOf(b);
-    if(ia === -1 && ib === -1) return 0;
-    if(ia === -1) return 1;
-    if(ib === -1) return -1;
-    return ia - ib;
-  });
+  const preferredOrder = ['연구,컨설팅부', '축제지원부', '교육부', '공간운영및축제실행부'];
+  const seen = [...preferredOrder];
+  items.forEach(p => { const k = p.category || '사업부문'; if(!seen.includes(k)) seen.push(k); });
   return seen;
 }
 
@@ -61,7 +54,7 @@ function renderTabs(){
   const tabsHost = document.getElementById('indexTabs');
   tabsHost.innerHTML = order.map(key => {
     const meta = categoryMeta(key);
-    const count = items.filter(p => (p.category||'프로그램') === key).length;
+    const count = items.filter(p => (p.category||'사업부문') === key).length;
     const active = key === ACTIVE_CATEGORY;
     return `
       <button type="button" class="index-tab ${active ? 'active' : ''}" data-cat="${escapeHTML(key)}"
@@ -81,9 +74,15 @@ function renderTabs(){
 }
 
 function renderPanel(){
-  const items = PROGRAM_DATA.items.filter(p => (p.category||'프로그램') === ACTIVE_CATEGORY);
+  const items = PROGRAM_DATA.items.filter(p => (p.category||'사업부문') === ACTIVE_CATEGORY);
   const meta = categoryMeta(ACTIVE_CATEGORY);
   const panel = document.getElementById('indexPanel');
+
+  if(!items.length){
+    panel.style.borderTopColor = meta.color;
+    panel.innerHTML = `<div class="empty-note">아직 등록된 사업이 없습니다. 곧 채워질 예정입니다.</div>`;
+    return;
+  }
 
   const subOrder = [];
   const subGroups = {};
@@ -134,14 +133,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const panel = document.getElementById('indexPanel');
   if(!data || !data.items || !data.items.length){
     document.getElementById('indexTabs').style.display = 'none';
-    panel.innerHTML = `<div class="empty-note">아직 등록된 프로그램이 없습니다.</div>`;
+    panel.innerHTML = `<div class="empty-note">아직 등록된 사업부문이 없습니다.</div>`;
     return;
   }
   PROGRAM_DATA = data;
   const order = buildCategoryOrder(data.items);
   const params = new URLSearchParams(window.location.search);
   const requested = params.get('cat');
-  ACTIVE_CATEGORY = (requested && order.includes(requested)) ? requested : order[0];
+  const firstNonEmpty = order.find(k => data.items.some(p => (p.category||'사업부문') === k));
+  ACTIVE_CATEGORY = (requested && order.includes(requested)) ? requested : (firstNonEmpty || order[0]);
   renderTabs();
   renderPanel();
 });

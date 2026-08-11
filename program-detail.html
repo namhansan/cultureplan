@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>프로그램 상세 — 한국문화기획학교</title>
+<title>사업부문 상세 — 한국문화기획학교</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -16,7 +16,7 @@
 <main>
   <section class="page-hero">
     <div class="wrap">
-      <a class="back-link" href="/programs.html">← 프로그램 목록으로</a>
+      <a class="back-link" href="/programs.html">← 사업부문 목록으로</a>
       <div id="detailBanner" style="width:100%; height:220px; border-radius:14px; margin-bottom:28px; display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--mono); font-size:.82rem; letter-spacing:.08em; text-transform:uppercase;"></div>
       <div id="detailHost">
         <p>불러오는 중입니다…</p>
@@ -28,7 +28,7 @@
     <div class="wrap">
       <div class="cta-row">
         <a class="btn primary" href="/contact.html">문의하기</a>
-        <a class="btn" href="/programs.html">다른 프로그램 보기</a>
+        <a class="btn" href="/programs.html">다른 사업 보기</a>
       </div>
     </div>
   </section>
@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('detailBanner').style.display = 'none';
     host.innerHTML = `
       <div class="empty-note">
-        요청하신 프로그램을 찾을 수 없습니다. <a href="/programs.html" style="color:var(--stamp-deep); font-weight:600;">전체 프로그램 목록</a>으로 돌아가 주세요.
+        요청하신 사업을 찾을 수 없습니다. <a href="/programs.html" style="color:var(--stamp-deep); font-weight:600;">전체 사업부문 목록</a>으로 돌아가 주세요.
       </div>`;
-    document.title = '프로그램을 찾을 수 없습니다 — 한국문화기획학교';
+    document.title = '사업을 찾을 수 없습니다 — 한국문화기획학교';
     return;
   }
 

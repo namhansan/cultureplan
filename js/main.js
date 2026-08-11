@@ -119,7 +119,7 @@ function hashColor(str){
   return CATEGORY_COLOR_PALETTE[h % CATEGORY_COLOR_PALETTE.length];
 }
 function categoryMeta(key){
-  if(!key) return { label: '프로그램', color: '#16233F' };
+  if(!key) return { label: '사업부문', color: '#16233F' };
   return { label: key, color: hashColor(key) };
 }
 

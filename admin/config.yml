@@ -61,13 +61,13 @@ collections:
               - { label: "이미지 대체텍스트 (선택)", name: "imageAlt", widget: "string", required: false }
 
   - name: "programs"
-    label: "프로그램"
+    label: "사업부문"
     files:
       - file: "content/data/programs.json"
-        label: "프로그램 목록"
+        label: "사업부문 목록"
         name: "programs"
         fields:
-          - label: "프로그램 목록"
+          - label: "사업부문 목록"
             name: "items"
             widget: "list"
             summary: "{{title}}"
@@ -80,11 +80,11 @@ collections:
               - label: "제목"
                 name: "title"
                 widget: "string"
-              - label: "분류 (카테고리 — 새 카테고리는 그냥 새로운 이름을 입력하면 자동으로 생깁니다)"
+              - label: "분류 (사업부문 — 새 사업부문은 그냥 새로운 이름을 입력하면 자동으로 생깁니다)"
                 name: "category"
                 widget: "string"
-                hint: "예: 교육 프로그램, 문화 프로젝트. 지금 없는 이름을 입력하면 프로그램 페이지에 새 그룹으로 자동 생성됩니다."
-                default: "문화 프로젝트"
+                hint: "예: 연구,컨설팅부 / 축제지원부 / 교육부 / 공간운영및축제실행부. 지금 없는 이름을 입력하면 사업부문 페이지에 새 그룹으로 자동 생성됩니다."
+                default: "교육부"
               - label: "소카테고리 (같은 이름끼리 프로그램 페이지에서 한 묶음으로 표시됩니다)"
                 name: "tag"
                 widget: "string"
