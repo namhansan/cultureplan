@@ -71,6 +71,17 @@
       "tag": "공간운영",
       "image": "/images/uploads/chebu-building.jpg",
       "category": "공간운영및축제실행부"
+    },
+    {
+      "period": "상시 운영",
+      "audience": "지자체 · 축제 운영기관",
+      "summary": "한국문화기획학교의 축제 컨설팅 노하우를 이어가는 자매 브랜드입니다. 원포인트 축제 컨설팅, 축제감독 양성과정, 축제 재원조성 컨설팅을 전문으로 운영합니다.",
+      "status": "상시 운영",
+      "title": "한국축제지원센터 운영",
+      "tag": "축제지원센터",
+      "image": "/images/uploads/screen-shot-2026-07-31-at-4.38.42-pm.png",
+      "category": "축제지원부",
+      "externalUrl": "https://kfsc-website.vercel.app/"
     }
   ]
 }
